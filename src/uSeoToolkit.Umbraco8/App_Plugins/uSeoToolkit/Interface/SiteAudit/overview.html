@@ -1,0 +1,15 @@
+﻿<umb-load-indicator ng-if="$ctrl.state.isLoading"></umb-load-indicator>
+
+<umb-box>
+    <div class="umb-box-header">
+        {{$ctrl.state.items.length}} audits
+    </div>
+    <div class="umb-box-content">
+        <div ng-repeat="item in $ctrl.state.items">
+            <a ng-click="$ctrl.fn.clickItem(item)">{{item.Name}}</a>
+        </div>
+    </div>
+</umb-box>
+<div>
+    <umb-button type="button" size="xs" label-key="Create new" action="$ctrl.fn.startCreateAudit()">Create audit</umb-button>
+</div>

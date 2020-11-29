@@ -1,0 +1,8 @@
+﻿{
+  "javascript": [
+    "~/App_Plugins/uSeoToolkit/Interface/Dashboards/SiteAudit/siteAuditDashboard.controller.js",
+    "~/App_Plugins/uSeoToolkit/Interface/SiteAudit/create.controller.js",
+    "~/App_Plugins/uSeoToolkit/Interface/SiteAudit/detail.controller.js",
+    "~/App_Plugins/uSeoToolkit/Interface/SiteAudit/overview.controller.js"
+  ]
+}

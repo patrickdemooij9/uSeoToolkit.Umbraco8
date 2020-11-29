@@ -6,4 +6,15 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="UmbracoCms.Core" Version="8.7.0" />
+	  <PackageReference Include="UmbracoCms.Web" Version="8.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="SeoToolkit.Core">
+	    <HintPath>..\..\..\SeoToolkit.Core\SeoToolkit\src\SeoToolkit.Core\bin\Debug\net472\SeoToolkit.Core.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>
