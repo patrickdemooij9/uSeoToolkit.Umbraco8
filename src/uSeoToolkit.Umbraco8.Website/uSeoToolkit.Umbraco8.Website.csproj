@@ -320,6 +320,16 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uSeoToolkit.Umbraco8.Core\uSeoToolkit.Umbraco8.Core.csproj">
+      <Project>{4ed64fd2-c9af-4d60-ae2a-51a2f22af421}</Project>
+      <Name>uSeoToolkit.Umbraco8.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uSeoToolkit.Umbraco8\uSeoToolkit.Umbraco8.csproj">
+      <Project>{2e3ac69d-1c4c-4e08-aa7f-64a8575de4ff}</Project>
+      <Name>uSeoToolkit.Umbraco8</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

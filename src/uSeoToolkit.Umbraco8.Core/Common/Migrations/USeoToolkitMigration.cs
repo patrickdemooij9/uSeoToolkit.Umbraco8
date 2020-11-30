@@ -22,7 +22,7 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Migrations
             if (!TableExists("uSeoToolkitSiteAuditCheckResult"))
             {
                 Create.Table<SiteAuditCheckResultEntity>().Do();
-                Database.Execute("ALTER TABLE uSeoToolkitSiteAuditCheckResult ALTER COLUMN ExtraValues NVARCHAR(MAX)");
+                Database.Execute("ALTER TABLE uSeoToolkitSiteAuditCheckResult ALTER COLUMN ExtraValues NTEXT");
             }
         }
     }

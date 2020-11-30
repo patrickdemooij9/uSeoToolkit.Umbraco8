@@ -8,6 +8,7 @@ using Umbraco.Core.Composing;
 using Umbraco.Web;
 using uSeoToolkit.Umbraco8.Core.Common.Collections;
 using uSeoToolkit.Umbraco8.Core.Common.Components;
+using uSeoToolkit.Umbraco8.Core.Common.ContentApps;
 using uSeoToolkit.Umbraco8.Core.Common.Dashboards;
 using uSeoToolkit.Umbraco8.Core.Common.Sections;
 using uSeoToolkit.Umbraco8.Core.Repositories;
@@ -23,6 +24,8 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Composers
             composition.Sections().Append<USeoToolkitSection>();
 
             composition.Dashboards().Add<SiteAuditDashboard>();
+
+            composition.ContentApps().Append<USeoToolkitDocumentSettingsContentAppFactory>();
 
             composition.Register(typeof(ISiteAuditRepository), typeof(SiteAuditDatabaseRepository));
             composition.Register(typeof(ISiteCrawler), typeof(SiteCrawler));
