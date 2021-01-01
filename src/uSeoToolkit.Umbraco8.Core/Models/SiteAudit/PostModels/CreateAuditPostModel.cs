@@ -7,5 +7,6 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.PostModels
         public string Name { get; set; }
         public int SelectedNodeId { get; set; }
         public Guid[] Checks { get; set; }
+        public bool StartAudit { get; set; }
     }
 }

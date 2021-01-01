@@ -1,4 +1,5 @@
 ﻿using Umbraco.Core.Migrations;
+using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Migrations
@@ -19,10 +20,18 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Migrations
             {
                 Create.Table<SiteAuditCheckEntity>().Do();
             }
+            if (!TableExists("uSeoToolkitSiteAuditPage"))
+            {
+                Create.Table<SiteAuditPageEntity>().Do();
+            }
             if (!TableExists("uSeoToolkitSiteAuditCheckResult"))
             {
                 Create.Table<SiteAuditCheckResultEntity>().Do();
                 Database.Execute("ALTER TABLE uSeoToolkitSiteAuditCheckResult ALTER COLUMN ExtraValues NTEXT");
+            }
+            if (!TableExists("uSeoToolkitDocumentTypeSettings"))
+            {
+                Create.Table<DocumentTypeSettingsEntity>().Do();
             }
         }
     }

@@ -264,6 +264,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\uSeoToolkit\css\main.css" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\Components\DynamicSelectBox\dynamicSelectBox.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\Components\DynamicSelectBox\dynamicSelectBox.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\DocumentSettings\documentSettings.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\DocumentSettings\documentSettings.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\Dashboards\SiteAudit\siteAuditDashboard.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\Dashboards\SiteAudit\siteAuditDashboard.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\detail.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\detail.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\overview.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\overview.html" />
     <Content Include="config\grid.editors.config.js" />
     <Content Include="config\Lang\cs-CZ.user.xml" />
     <Content Include="config\Lang\da-DK.user.xml" />
@@ -302,6 +315,7 @@
     <Content Include="config\HealthChecks.config" />
     <Content Include="config\ClientDependency.config" />
     <Content Include="config\BackOfficeTours\getting-started.json" />
+    <Content Include="App_Plugins\uSeoToolkit\package.manifest" />
     <None Include="packages.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
@@ -313,6 +327,7 @@
     <Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
     <Content Include="Views\Partials\BlockList\Default.cshtml" />
+    <Content Include="Views\master.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -329,6 +344,9 @@
       <Project>{2e3ac69d-1c4c-4e08-aa7f-64a8575de4ff}</Project>
       <Name>uSeoToolkit.Umbraco8</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Plugins\uSeoToolkit\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

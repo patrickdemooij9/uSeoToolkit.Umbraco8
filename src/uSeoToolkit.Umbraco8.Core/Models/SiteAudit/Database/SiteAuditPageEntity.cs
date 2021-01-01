@@ -1,24 +1,25 @@
 ﻿using NPoco;
-using System;
 using Umbraco.Core.Persistence.DatabaseAnnotations;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database
 {
-    [TableName("uSeoToolkitSiteAuditCheck")]
+    [TableName("uSeoToolkitSiteAuditPage")]
     [ExplicitColumns]
     [PrimaryKey("Id", AutoIncrement = true)]
-    public class SiteAuditCheckEntity
+    public class SiteAuditPageEntity
     {
-        //TODO: See if we can have 2 primary keys here instead of autoincrement
         [Column("Id")]
         [PrimaryKeyColumn(AutoIncrement = true)]
         public int Id { get; set; }
 
         [Column("AuditId")]
-        [ForeignKey(typeof(SiteAuditEntity), Column = "Id", Name = "FK_AuditCheck_Audit")]
+        [ForeignKey(typeof(SiteAuditEntity), Column = "Id")]
         public int AuditId { get; set; }
 
-        [Column("CheckGuid")]
-        public Guid CheckGuid { get; set; }
+        [Column("Url")]
+        public string Url { get; set; }
+
+        [Column("StatusCode")]
+        public int StatusCode { get; set; }
     }
 }

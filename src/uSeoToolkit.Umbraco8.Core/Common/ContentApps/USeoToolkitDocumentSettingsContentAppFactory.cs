@@ -14,12 +14,13 @@ namespace uSeoToolkit.Umbraco8.Core.Common.ContentApps
                 return null;
             }
 
-            return new ContentApp()
+            return new ContentApp
             {
                 Name = "Seo Settings",
                 Alias = "seoSettings",
                 Icon = "icon-globe-alt",
-                Weight = 100
+                Weight = 100,
+                View = "/App_Plugins/uSeoToolkit/Interface/ContentApps/DocumentSettings/documentSettings.html"
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using NPoco;
+﻿using System;
+using NPoco;
 using Umbraco.Core.Persistence.DatabaseAnnotations;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database
@@ -12,12 +13,12 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database
         [PrimaryKeyColumn(AutoIncrement = true)]
         public int Id { get; set; }
 
-        [Column("CheckId")]
-        public int CheckId { get; set; }
+        [Column("PageId")]
+        [ForeignKey(typeof(SiteAuditPageEntity), Column = "Id")]
+        public int PageId { get; set; }
 
-        [Column("SiteAuditId")]
-        [ForeignKey(typeof(SiteAuditEntity), Column = "Id")]
-        public int SiteAuditId { get; set; }
+        [Column("CheckId")]
+        public Guid CheckId { get; set; }
 
         [Column("ResultId")]
         public int ResultId { get; set; }

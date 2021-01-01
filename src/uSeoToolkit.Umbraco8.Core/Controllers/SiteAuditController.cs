@@ -44,7 +44,7 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult CreateAudit([FromBody]CreateAuditPostModel postModel)
+        public IHttpActionResult CreateAudit([FromBody] CreateAuditPostModel postModel)
         {
             var model = new SiteAuditDto
             {
@@ -53,6 +53,10 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
                 SiteChecks = _siteCheckCollection.GetAll().Where(it => postModel.Checks.Contains(it.Id)).ToList()
             };
             _siteAuditService.Save(model);
+            if (postModel.StartAudit)
+            {
+                _siteAuditService.StartSiteAudit(model);
+            }
             return Ok();
         }
     }

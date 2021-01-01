@@ -1,0 +1,48 @@
+﻿<umb-load-indicator ng-if="$ctrl.state.isLoading"></umb-load-indicator>
+
+<div class="form-horizontal">
+    <div style="display:flex; justify-content:space-between">
+        <umb-box style="width: 50%; margin-right: 14px;">
+            <div class="umb-box-header">
+                1. Audit information
+            </div>
+            <div class="umb-box-content">
+                <div class="umb-el-wrap">
+                    <label for="name" class="control-label" style="width:auto;">Name</label>
+                    <div class="controls" style="width:100%; margin:auto;">
+                        <input type="text" class="umb-textstring" id="name" style="width:100%;" ng-model="$ctrl.state.selectedAudit.name" />
+                    </div>
+                </div>
+                <div class="umb-el-wrap" style="padding-top: 10px">
+                    <label for="starting-node" class="control-label" style="width:auto;">Starting node</label>
+                    <div class="controls" style="width:100%; margin:auto;">
+                        <a id="starting-node" ng-if="$ctrl.state.selectedAudit.selectedNode == null" ng-click="$ctrl.fn.openNodeDialog()" style="width:100%;">Select starting node</a>
+                        <a ng-if="$ctrl.state.selectedAudit.selectedNode != null" ng-click="$ctrl.fn.openNodeDialog()" style="width:100%;">{{$ctrl.state.selectedAudit.selectedNode.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </umb-box>
+        <umb-box style="width: 50%">
+            <div class="umb-box-header">
+                2. Checks
+            </div>
+            <div class="umb-box-content">
+                <div class="umb-permission" ng-repeat="check in $ctrl.state.checks">
+                    <umb-toggle class="umb-permission__toggle"
+                                checked="$ctrl.state.selectedAudit.checks.includes(check.Id)"
+                                on-click="$ctrl.state.toggleCheck(check)">
+                    </umb-toggle>
+                    <div class="umb-permission__content" ng-click="$ctrl.fn.toggleCheck(check)">
+                        <div>{{check.Name}}</div>
+                        <div class="umb-permission__description">{{check.Description}}</div>
+                    </div>
+                </div>
+            </div>
+        </umb-box>
+    </div>
+    <div>
+        <umb-button type="button" style="float:right;" button-style="success btn-sm" size="xs" label-key="CreateAndStart" action="$ctrl.fn.createAudit(true)">Create and start</umb-button>
+        <umb-button type="button" style="float: right;" button-style="success btn-sm" size="xs" label-key="Create" action="$ctrl.fn.createAudit(false)">Create</umb-button>
+        <umb-button type="button" style="float: right;" button-style="primary btn-sm" size="xs" label-key="Cancel" action="$ctrl.fn.cancel()">Cancel</umb-button>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿<div ng-controller="uSeoToolkit.ContentApps.DocumentSettingController as vm" class="form-horizontal">
+    <umb-box ng-show="vm.loading === false">
+        <umb-box-content>
+            <div class="control-group umb-control-group">
+                <div class="umb-el-wrap">
+                    <div class="control-header">
+                        <label class="control-label">Enable Seo Settings</label>
+                        <small class="control-description">
+                            Enables the manual Seo Settings for this document type. If you are doing custom seo settings, you don't have to use this
+                        </small>
+                    </div>
+                    <div class="controls">
+                        <div class="umb-property-editor">
+                            <umb-toggle checked="vm.model.enableSeoSettings"
+                                        on-click="vm.toggleSeoSettings()">
+                            </umb-toggle>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="vm.model.enableSeoSettings">
+                <div class="control-group umb-control-group">
+                    <div class="umb-el-wrap">
+                        <div class="control-header">
+                            <label class="control-label">Default Title</label>
+                            <small class="control-description">
+                                The order in which the default title is determined. The check will start on top and go down until an valid value is found
+                            </small>
+                        </div>
+                        <div class="controls">
+                            <div class="umb-property-editor">
+                                <dynamic-select-box base-list="vm.titleFields" selected-list="vm.selectedTitleFields">
+
+                                </dynamic-select-box>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group umb-control-group">
+                    <div class="umb-el-wrap">
+                        <div class="control-header">
+                            <label class="control-label">Default Description</label>
+                            <small class="control-description">
+                                The order in which the default description is determined. The check will start on top and go down until an valid value is found
+                            </small>
+                        </div>
+                        <div class="controls">
+                            <div class="umb-property-editor">
+                                <dynamic-select-box base-list="vm.descriptionFields" selected-list="vm.selectedDescriptionFields">
+
+                                </dynamic-select-box>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <umb-button action="vm.save()"
+                        type="button"
+                        button-style="action"
+                        shortcut="ctrl+c"
+                        label="Save">
+            </umb-button>
+        </umb-box-content>
+    </umb-box>
+</div>

@@ -1,0 +1,14 @@
+﻿<umb-load-indicator ng-if="$ctrl.state.isLoading"></umb-load-indicator>
+
+<div ng-if="!$ctrl.state.isLoading">
+    <umb-box>
+        <div class="umb-box-header">
+            {{$ctrl.state.audit.Name}}
+        </div>
+        <div class="umb-box-header">
+            Status
+            <!--TODO: Add progress bar here!-->
+
+        </div>
+    </umb-box>
+</div>
