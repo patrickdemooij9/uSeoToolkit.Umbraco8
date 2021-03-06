@@ -5,8 +5,7 @@ using Umbraco.Core.Persistence.DatabaseAnnotations;
 namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database
 {
     [TableName("uSeoToolkitSiteAuditCheckResult")]
-    [ExplicitColumns]
-    [PrimaryKey("Id")]
+    [PrimaryKey("Id", AutoIncrement = true)]
     public class SiteAuditCheckResultEntity
     {
         [Column("Id")]

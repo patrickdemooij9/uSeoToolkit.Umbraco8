@@ -15,12 +15,13 @@ namespace uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database
         [Column("EnableSeoSettings")]
         public bool EnableSeoSettings { get; set; }
 
-        [Column("DefaultTitleFields")]
+        [Column("Fields")]
         [NullSetting(NullSetting = NullSettings.Null)]
-        public string DefaultTitleFields { get; set; }
+        [SpecialDbType(SpecialDbTypes.NTEXT)]
+        public string Fields { get; set; }
 
-        [Column("DefaultDescriptionFields")]
+        [Column("InheritanceId")]
         [NullSetting(NullSetting = NullSettings.Null)]
-        public string DefaultDescriptionFields { get; set; }
+        public int? InheritanceId { get; set; }
     }
 }

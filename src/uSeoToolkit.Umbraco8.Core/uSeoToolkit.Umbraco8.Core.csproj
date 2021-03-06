@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
 	  <PackageReference Include="UmbracoCms.Core" Version="8.7.0" />
 	  <PackageReference Include="UmbracoCms.Web" Version="8.7.0" />
 	</ItemGroup>

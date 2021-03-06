@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Umbraco.Core.Persistence;
 using Umbraco.Core.Scoping;
+using Umbraco.Core.Services;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database;
@@ -11,10 +13,12 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
     public class DocumentTypeSettingsRepository : IDocumentTypeSettingsRepository
     {
         private readonly IScopeProvider _scopeProvider;
+        private readonly ServiceContext _services;
 
-        public DocumentTypeSettingsRepository(IScopeProvider scopeProvider)
+        public DocumentTypeSettingsRepository(IScopeProvider scopeProvider, ServiceContext services)
         {
             _scopeProvider = scopeProvider;
+            _services = services;
         }
 
         public IEnumerable<DocumentTypeSettingsDto> GetAll()
@@ -38,23 +42,26 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             }
         }
 
-        public void Add(DocumentTypeSettingsDto model)
+        public DocumentTypeSettingsDto Add(DocumentTypeSettingsDto model)
         {
+            var entity = MapToEntity(model);
             using (var scope = _scopeProvider.CreateScope())
             {
-                var entity = MapToEntity(model);
                 scope.Database.Insert(entity);
                 scope.Complete();
             }
+            return model;
         }
 
-        public void Update(DocumentTypeSettingsDto model)
+        public DocumentTypeSettingsDto Update(DocumentTypeSettingsDto model)
         {
             using (var scope = _scopeProvider.CreateScope())
             {
                 scope.Database.Update(MapToEntity(model));
                 scope.Complete();
             }
+
+            return model;
         }
 
         public void Delete(int id)
@@ -72,11 +79,12 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
         {
             if (entity is null)
                 return null;
+            var inheritance = entity.InheritanceId != null ? _services.ContentTypeService.Get(entity.InheritanceId.Value) : null;
             return new DocumentTypeSettingsDto
             {
                 EnableSeoSettings = entity.EnableSeoSettings,
-                DefaultTitleFields = entity.DefaultTitleFields.Split(','),
-                DefaultDescriptionFields = entity.DefaultDescriptionFields.Split(',')
+                Fields = string.IsNullOrWhiteSpace(entity.Fields) ? new Dictionary<string, string>() : JsonConvert.DeserializeObject<Dictionary<string, string>>(entity.Fields),
+                Inheritance = inheritance
             };
         }
 
@@ -88,8 +96,8 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             {
                 NodeId = dto.Content.Id,
                 EnableSeoSettings = dto.EnableSeoSettings,
-                DefaultTitleFields = string.Join(",", dto.DefaultTitleFields),
-                DefaultDescriptionFields = string.Join(",", dto.DefaultDescriptionFields)
+                Fields = JsonConvert.SerializeObject(dto.Fields),
+                InheritanceId = dto.Inheritance?.Id
             };
         }
     }

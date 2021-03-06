@@ -27,6 +27,9 @@
             clickItem: function (item) {
                 $routeParams.id = item.Id;
                 eventsService.emit("uSeoToolkit.ViewUpdate", "SiteAuditDetail");
+            },
+            selectItem: function(selectedItem, $index, $event) {
+                alert("select node");
             }
         }
     }]

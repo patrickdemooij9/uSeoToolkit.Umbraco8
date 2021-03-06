@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
+using SeoToolkit.Core.Enums;
 using SeoToolkit.Core.Interfaces.SiteAudit;
 using SeoToolkit.Core.Models.SiteAudit;
 using SeoToolkit.Core.Services;
@@ -8,6 +10,7 @@ using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
+using uSeoToolkit.Umbraco8.Core.Common.Hubs;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.PostModels;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.ViewModels;
 
@@ -18,17 +21,31 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
     {
         private readonly SiteAuditService _siteAuditService;
         private readonly ISiteCheckCollection _siteCheckCollection;
+        private readonly SiteAuditHubClientService _siteAuditHubClient;
 
-        public SiteAuditController(SiteAuditService siteAuditService, ISiteCheckCollection siteCheckCollection)
+        public SiteAuditController(SiteAuditService siteAuditService, ISiteCheckCollection siteCheckCollection, SiteAuditHubClientService siteAuditHubClient)
         {
             _siteAuditService = siteAuditService;
             _siteCheckCollection = siteCheckCollection;
+            _siteAuditHubClient = siteAuditHubClient;
         }
 
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            return Json(_siteAuditService.Get(id));
+            var model = _siteAuditService.Get(id);
+            if (model is null)
+                return NotFound();
+
+            return Json(new SiteAuditDetailViewModel(model));
+        }
+
+        //SignalR stuff
+        [HttpGet]
+        public IHttpActionResult Connect(int auditId, string clientId)
+        {
+            _siteAuditHubClient.AssignClient(clientId, auditId);
+            return Get(auditId);
         }
 
         [HttpGet]
@@ -50,12 +67,24 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
             {
                 Name = postModel.Name,
                 StartingUrl = new Uri(Umbraco.Content(postModel.SelectedNodeId).Url(mode: UrlMode.Absolute)),
-                SiteChecks = _siteCheckCollection.GetAll().Where(it => postModel.Checks.Contains(it.Id)).ToList()
+                SiteChecks = _siteCheckCollection.GetAll().Where(it => postModel.Checks.Contains(it.Id)).ToList(),
+                MaxPagesToCrawl = postModel.MaxPagesToCrawl,
+                DelayBetweenRequests = postModel.DelayBetweenRequests
             };
-            _siteAuditService.Save(model);
+            model = _siteAuditService.Save(model);
             if (postModel.StartAudit)
             {
-                _siteAuditService.StartSiteAudit(model);
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        var result = _siteAuditService.StartSiteAudit(model).Result;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(typeof(SiteAuditController), ex);
+                    }
+                });
             }
             return Ok();
         }

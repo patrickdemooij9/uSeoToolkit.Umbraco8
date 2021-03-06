@@ -23,9 +23,10 @@ namespace uSeoToolkit.Umbraco8.Core.Common.ContentApps
             return new ContentApp
             {
                 Name = "Seo",
-                Alias = "seo",
+                Alias = "seoSettings",
                 Icon = "icon-globe-alt",
-                Weight = 100
+                Weight = 100,
+                View = "/App_Plugins/uSeoToolkit/Interface/ContentApps/SeoSettings/seoSettings.html"
             };
         }
     }

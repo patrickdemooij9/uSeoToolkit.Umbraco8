@@ -23,8 +23,8 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
                 return null;
             return new MetaTagsModel
             {
-                Title = GetValue(content, settings.DefaultTitleFields),
-                Description = GetValue(content, settings.DefaultDescriptionFields)
+                Title = GetValue(content, settings.GetDefaultTitleFields()),
+                Description = GetValue(content, settings.GetDefaultDescriptionFields())
             };
         }
 

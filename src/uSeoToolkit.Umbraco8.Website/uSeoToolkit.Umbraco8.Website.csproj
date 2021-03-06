@@ -56,8 +56,8 @@
     <Reference Include="Examine, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Examine.1.0.2\lib\net452\Examine.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.8.14.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.8.14\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.11.28.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.28\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -269,6 +269,10 @@
     <Content Include="App_Plugins\uSeoToolkit\Interface\Components\DynamicSelectBox\dynamicSelectBox.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\DocumentSettings\documentSettings.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\DocumentSettings\documentSettings.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\SeoSettings\seoSettings.controller.js">
+      <BrowseToURL>~/App_Plugins/uSeoToolkit/Interface/ContentApps/SeoSettings/seoSettings.controller.js</BrowseToURL>
+    </Content>
+    <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\SeoSettings\seoSettings.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\Dashboards\SiteAudit\siteAuditDashboard.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\Dashboards\SiteAudit\siteAuditDashboard.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.controller.js" />
@@ -277,6 +281,7 @@
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\detail.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\overview.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\overview.html" />
+    <Content Include="App_Plugins\uSeoToolkit\js\siteAuditHub.js" />
     <Content Include="config\grid.editors.config.js" />
     <Content Include="config\Lang\cs-CZ.user.xml" />
     <Content Include="config\Lang\da-DK.user.xml" />
@@ -345,9 +350,7 @@
       <Name>uSeoToolkit.Umbraco8</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Plugins\uSeoToolkit\js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

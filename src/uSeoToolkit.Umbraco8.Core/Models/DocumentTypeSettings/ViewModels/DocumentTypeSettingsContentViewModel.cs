@@ -1,31 +1,39 @@
 ﻿using System;
 using Newtonsoft.Json;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
+using uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.ViewModels
 {
     public class DocumentTypeSettingsContentViewModel
     {
-        [JsonProperty("enableSeoSettings")] 
+        [JsonProperty("enableSeoSettings")]
         public bool EnableSeoSettings { get; set; }
 
-        [JsonProperty("defaultTitleFields")]
-        public string[] DefaultTitleFields { get; set; }
+        [JsonProperty("values")]
+        public SeoFieldViewModel[] Fields { get; set; }
 
-        [JsonProperty("defaultDescriptionFields")]
-        public string[] DefaultDescriptionFields { get; set; }
+        [JsonProperty("inheritance")]
+        public DocumentTypeSettingsInheritanceViewModel Inheritance { get; set; }
 
         public DocumentTypeSettingsContentViewModel()
         {
-            DefaultTitleFields = Array.Empty<string>();
-            DefaultDescriptionFields = Array.Empty<string>();
+            Fields = Array.Empty<SeoFieldViewModel>();
         }
 
-        public DocumentTypeSettingsContentViewModel(DocumentTypeSettingsDto model)
+        public DocumentTypeSettingsContentViewModel(SeoFieldViewModel[] fields)
+        {
+            Fields = fields;
+        }
+
+        public DocumentTypeSettingsContentViewModel(DocumentTypeSettingsDto model, SeoFieldViewModel[] fields) : this(fields)
         {
             EnableSeoSettings = model.EnableSeoSettings;
-            DefaultTitleFields = model.DefaultTitleFields;
-            DefaultDescriptionFields = model.DefaultDescriptionFields;
+            Inheritance = model.Inheritance is null ? null : new DocumentTypeSettingsInheritanceViewModel
+            {
+                Id = model.Inheritance.Id,
+                Name = model.Inheritance.Name
+            };
         }
     }
 }

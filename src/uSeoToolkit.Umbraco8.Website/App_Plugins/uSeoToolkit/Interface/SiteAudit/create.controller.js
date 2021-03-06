@@ -1,6 +1,6 @@
 ﻿angular.module("umbraco").component("siteAuditCreate", {
     templateUrl: "/App_Plugins/uSeoToolkit/Interface/SiteAudit/create.html",
-    controller: ["$http", "eventsService", "editorService", function ($http, eventsService, editorService) {
+    controller: ["$http", "$routeParams", "eventsService", "editorService", function ($http, $routeParams, eventsService, editorService) {
         this.$onInit = function () {
             state.isLoading = true;
             $http.get("backoffice/uSeoToolkit/SiteAudit/GetAllChecks").then(function (response) {
@@ -49,10 +49,14 @@
                         Name: state.selectedAudit.name,
                         SelectedNodeId: state.selectedAudit.selectedNode.id,
                         Checks: state.selectedAudit.checks,
-                        StartAudit: startAudit
+                        StartAudit: startAudit,
+                        MaxPagesToCrawl: state.selectedAudit.maxPagesToCrawl,
+                        DelayBetweenRequests: state.selectedAudit.delayBetweenRequests
                     }
                 ).then(function (response) {
                     console.log(response);
+                    $routeParams.id = response.data.Id;
+                    eventsService.emit("uSeoToolkit.ViewUpdate", "SiteAuditDetail");
                 });
             },
             cancel: function () {

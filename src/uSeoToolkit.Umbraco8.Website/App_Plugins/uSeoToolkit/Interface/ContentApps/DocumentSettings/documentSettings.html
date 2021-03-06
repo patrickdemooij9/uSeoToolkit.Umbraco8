@@ -22,31 +22,29 @@
                 <div class="control-group umb-control-group">
                     <div class="umb-el-wrap">
                         <div class="control-header">
-                            <label class="control-label">Default Title</label>
+                            <label class="control-label">Inheritance</label>
                             <small class="control-description">
-                                The order in which the default title is determined. The check will start on top and go down until an valid value is found
+                                Control from which type this should be inherited. It'll then use the values from that type first!
                             </small>
                         </div>
                         <div class="controls">
-                            <div class="umb-property-editor">
-                                <dynamic-select-box base-list="vm.titleFields" selected-list="vm.selectedTitleFields">
-
-                                </dynamic-select-box>
-                            </div>
+                            <a id="starting-node" ng-if="vm.model.inheritance == null" ng-click="vm.openContentTypeDialog()">Select inheritance</a>
+                            <a ng-if="vm.model.inheritance != null" ng-click="vm.openContentTypeDialog()">{{vm.model.inheritance.name}}</a>
+                            <i class="icon-delete" ng-if="vm.model.inheritance != null" ng-click="vm.removeInheritance()"></i>
                         </div>
                     </div>
                 </div>
-                <div class="control-group umb-control-group">
+                <div class="control-group umb-control-group" ng-repeat="field in vm.model.values">
                     <div class="umb-el-wrap">
                         <div class="control-header">
-                            <label class="control-label">Default Description</label>
+                            <label class="control-label">{{field.title}}</label>
                             <small class="control-description">
-                                The order in which the default description is determined. The check will start on top and go down until an valid value is found
+                                {{field.description}}
                             </small>
                         </div>
                         <div class="controls">
-                            <div class="umb-property-editor">
-                                <dynamic-select-box base-list="vm.descriptionFields" selected-list="vm.selectedDescriptionFields">
+                            <div class="umb-property-editor" ng-if="field.view === 'Custom'">
+                                <dynamic-select-box base-list="vm.customBaseFields[field.alias]" selected-list="vm.customSelectedFields[field.alias]" field="field">
 
                                 </dynamic-select-box>
                             </div>
@@ -54,12 +52,6 @@
                     </div>
                 </div>
             </div>
-            <umb-button action="vm.save()"
-                        type="button"
-                        button-style="action"
-                        shortcut="ctrl+c"
-                        label="Save">
-            </umb-button>
         </umb-box-content>
     </umb-box>
 </div>

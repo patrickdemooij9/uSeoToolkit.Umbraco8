@@ -14,7 +14,7 @@
 
         <umb-table items="$ctrl.state.items"
                    allow-select-all="true"
-                   on-select="vm.selectItem(item, $index, $event)"
+                   on-select="$ctrl.fn.selectItem(item, $index, $event)"
                    on-click="$ctrl.fn.clickItem(item)"
                    on-select-all="vm.selectAll($event)"
                    on-selected-all="vm.isSelectedAll()">

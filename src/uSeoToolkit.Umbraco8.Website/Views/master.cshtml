@@ -1,4 +1,5 @@
 ﻿@using Umbraco.Core.PropertyEditors
+@using uSeoToolkit.Umbraco8.Core.Interfaces.Services
 @using uSeoToolkit.Umbraco8.Core.Services.SeoService
 @inherits UmbracoViewPage
 @{
@@ -8,7 +9,7 @@
     var font = home.Font;
     var colorTheme = home.ColorTheme;
 
-    var seoService = DependencyResolver.Current.GetService<SeoService>();
+    var seoService = DependencyResolver.Current.GetService<ISeoService>();
     var metaTags = seoService.Get(Model);
 }
 

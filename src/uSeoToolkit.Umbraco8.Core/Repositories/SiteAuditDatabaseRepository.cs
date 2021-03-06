@@ -27,9 +27,9 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             _umbracoContextFactory = umbracoContextFactory;
         }
 
-        public void Add(SiteAuditDto model)
+        public SiteAuditDto Add(SiteAuditDto model)
         {
-            Update(model);
+            return Update(model);
         }
 
         public void Delete(int id)
@@ -71,6 +71,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
                         ExtraValues = JsonConvert.SerializeObject(result.ExtraValues)
                     });
                 }
+                scope.Complete();
             }
         }
 
@@ -108,25 +109,37 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             }
         }
 
-        public void Update(SiteAuditDto model)
+        public SiteAuditDto Update(SiteAuditDto model)
         {
             var isNew = model.Id == 0;
             using (var ctx = _umbracoContextFactory.EnsureUmbracoContext())
             {
+                var entity = new SiteAuditEntity
+                {
+                    Id = isNew ? 0 : model.Id,
+                    Name = model.Name,
+                    StartingNodeId = ctx.UmbracoContext.Content.GetByRoute(new Uri(model.StartingUrl.ToString()).AbsolutePath).Id,
+                    MaxPagesToCrawl = model.MaxPagesToCrawl ?? 0,
+                    DelayBetweenRequests = model.DelayBetweenRequests
+                };
                 using (var scope = _scopeProvider.CreateScope())
                 {
-                    var entity = new SiteAuditEntity { Id = isNew ? 0 : model.Id, Name = model.Name, StartingNodeId = ctx.UmbracoContext.Content.GetByRoute(new Uri(model.StartingUrl.ToString()).AbsolutePath).Id };
                     if (isNew)
-                    {
                         scope.Database.Insert(entity);
-                    }
                     else
                         scope.Database.Update(entity);
 
-                    var currentSiteChecks = GetChecksByAudit(entity.Id).ToArray();
+                    scope.Complete();
+                    //TODO: Probably save pages and results here again?
+                }
+
+                var currentSiteChecks = GetChecksByAudit(entity.Id).ToArray();
+                using (var scope = _scopeProvider.CreateScope())
+                {
                     foreach (var newCheck in model.SiteChecks.Where(it => currentSiteChecks.All(x => x.CheckGuid != it.Id)))
                     {
-                        scope.Database.Insert(new SiteAuditCheckEntity { AuditId = entity.Id, CheckGuid = newCheck.Id });
+                        var checkEntity = new SiteAuditCheckEntity { AuditId = entity.Id, CheckGuid = newCheck.Id };
+                        scope.Database.Insert(checkEntity);
                     }
 
                     foreach (var deletedCheck in currentSiteChecks.Where(it =>
@@ -134,10 +147,12 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
                     {
                         scope.Database.Delete(deletedCheck);
                     }
-                    scope.Complete();
 
-                    //TODO: Probably save pages and results here again?
+                    scope.Complete();
                 }
+
+                model.Id = entity.Id;
+                return model;
             }
         }
 
@@ -168,7 +183,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
                 dto.Results.Add(new PageCrawlResult
                 {
                     Check = _siteCheckCollection.GetCheckByAlias(result.CheckId),
-                    Result = (SiteCrawlResultType) result.ResultId,
+                    Result = (SiteCrawlResultType)result.ResultId,
                     ExtraValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(result.ExtraValues)
                 });
             }

@@ -2,11 +2,11 @@
     {
         templateUrl: "/App_Plugins/uSeoToolkit/Interface/Components/DynamicSelectBox/dynamicSelectBox.html",
         bindings: {
-            baseList: "=",
-            selectedList: "="
+            baseList: "<",
+            selectedList: "=",
+            field: "="
         },
         controllerAs: 'vm',
-        transclude: true,
         controller: ['$scope', function ($scope) {
 
             var vm = this;
