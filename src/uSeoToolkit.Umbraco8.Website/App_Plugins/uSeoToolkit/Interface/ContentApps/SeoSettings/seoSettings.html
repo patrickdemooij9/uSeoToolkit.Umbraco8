@@ -11,30 +11,15 @@
     <umb-box>
         <umb-box-header title="Seo Settings"></umb-box-header>
         <umb-box-content>
-            <div class="umb-property">
+            <div class="umb-property" ng-repeat="field in vm.fields">
                 <div class="control-group umb-control-group">
                     <div class="umb-el-wrap">
                         <div class="control-header">
-                            <label class="control-label">Title</label>
+                            <label class="control-label">{{field.title}}</label>
                         </div>
                         <div class="controls">
                             <div class="umb-property-editor">
-                                {{vm.title}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="umb-property">
-                <div class="control-group umb-control-group">
-                    <div class="umb-el-wrap">
-                        <div class="control-header">
-                            <label class="control-label">Description</label>
-                        </div>
-                        <div class="controls">
-                            <div class="umb-property-editor">
-                                {{vm.description}}
+                                {{vm.metaValues[field.alias]}}
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
 {
@@ -9,5 +10,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         string Description { get; }
         string View { get; }
         Dictionary<string, object> Config { get; }
+
+        HtmlString Render(string value);
     }
 }

@@ -58,11 +58,11 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Composers
                 .Append<BrokenLinkCheck>();
 
             composition.WithCollectionBuilder<SeoFieldCollectionBuilder>()
-                .Append<SeoTitleField>()
-                .Append<SeoDescriptionField>()
-                .Append<OpenGraphTitleField>()
-                .Append<OpenGraphDescriptionField>()
-                .Append<OpenGraphImageField>();
+                .Add<SeoTitleField>()
+                .Add<SeoDescriptionField>()
+                .Add<OpenGraphTitleField>()
+                .Add<OpenGraphDescriptionField>()
+                .Add<OpenGraphImageField>();
 
             composition.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
                 .Add<DocumentTypeSettingsMapper>();

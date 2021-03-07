@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoService.ViewModels
 {
     public class SeoSettingsViewModel
     {
-        [JsonProperty("defaultTitleFields")]
-        public string[] DefaultTitleFields { get; set; }
-
-        [JsonProperty("defaultDescriptionFields")]
-        public string[] DefaultDescriptionFields { get; set; }
+        [JsonProperty("fields")]
+        public SeoSettingsFieldViewModel[] Fields { get; set; }
     }
 }

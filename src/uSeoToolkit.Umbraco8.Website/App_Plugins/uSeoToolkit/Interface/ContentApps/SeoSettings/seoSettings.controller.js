@@ -1,24 +1,19 @@
 ﻿(function () {
     "use strict";
 
-    function SeoSettingsController($scope, $rootScope, $http, editorState) {
+    function SeoSettingsController($scope, $rootScope, $http, editorState, entityResource) {
 
         var vm = this;
         vm.loading = true;
 
-        vm.defaultTitleFields = [];
-        vm.defaultDescriptionFields = [];
-
-        vm.title = "";
-        vm.description = "";
+        vm.metaValues = {};
 
         function init() {
             console.log(editorState.current);
 
             $http.get("backoffice/uSeoToolkit/SeoSettings/Get?nodeId=" + editorState.current.id + "&contentTypeId=" + editorState.current.contentTypeId).then(
                 function (response) {
-                    vm.defaultTitleFields = response.data.defaultTitleFields;
-                    vm.defaultDescriptionFields = response.data.defaultDescriptionFields;
+                    vm.fields = response.data.fields;
 
                     updateMeta();
 
@@ -27,8 +22,21 @@
         }
 
         function updateMeta() {
-            vm.title = getValue(vm.defaultTitleFields);
-            vm.description = getValue(vm.defaultDescriptionFields);
+
+            vm.fields.forEach(function (f) {
+                if (f.values) {
+                    var value = getValue(f.values);
+                    if (value && value.startsWith('umb://')) {
+                        var entityType = value.substring(6, 11);
+                        entityResource.getById(value, entityType).then(function(result) {
+                            vm.metaValues[f.alias] = result.metaData.MediaPath;
+                        });
+                    }
+                    vm.metaValues[f.alias] = value;
+                } else {
+                    vm.metaValues[f.alias] = 'Not set';
+                }
+            });
         }
 
         function getValue(fields) {

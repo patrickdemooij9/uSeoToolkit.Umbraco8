@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Web;
+using Umbraco.Core.Composing;
 using uSeoToolkit.Umbraco8.Core.Constants;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
 {
+    [Weight(400)]
     public class OpenGraphDescriptionField : ISeoField
     {
         public string Title => "Open Graph Description";
@@ -13,5 +16,10 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         {
             {"dataTypes", new[] { "Umbraco.TextBox", "Umbraco.TextArea" }}
         };
+
+        public HtmlString Render(string value)
+        {
+            return new HtmlString($"<meta property='og:description' content='{value}'/>");
+        }
     }
 }

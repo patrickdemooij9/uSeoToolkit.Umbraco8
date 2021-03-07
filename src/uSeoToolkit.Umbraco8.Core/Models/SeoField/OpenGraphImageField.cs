@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Web;
+using Umbraco.Core.Composing;
 using uSeoToolkit.Umbraco8.Core.Constants;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
 {
+    [Weight(500)]
     public class OpenGraphImageField : ISeoField
     {
         public string Title => "Open Graph Image";
@@ -13,5 +16,10 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         {
             {"dataTypes", new[] { "Umbraco.MediaPicker" }}
         };
+
+        public HtmlString Render(string value)
+        {
+            return new HtmlString($"<meta property='og:image' content='{value}'/>");
+        }
     }
 }

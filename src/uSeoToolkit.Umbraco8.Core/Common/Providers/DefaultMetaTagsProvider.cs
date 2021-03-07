@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using ClientDependency.Core;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
@@ -10,10 +12,13 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
     public class DefaultMetaTagsProvider : IMetaTagsProvider
     {
         private readonly IDocumentTypeSettingsService _documentTypeSettingsService;
+        private readonly ISeoFieldCollection _seoFieldCollection;
 
-        public DefaultMetaTagsProvider(IDocumentTypeSettingsService documentTypeSettingsService)
+        public DefaultMetaTagsProvider(IDocumentTypeSettingsService documentTypeSettingsService,
+            ISeoFieldCollection seoFieldCollection)
         {
             _documentTypeSettingsService = documentTypeSettingsService;
+            _seoFieldCollection = seoFieldCollection;
         }
 
         public MetaTagsModel Get(IPublishedContent content)
@@ -21,11 +26,7 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
             var settings = _documentTypeSettingsService.Get(content.ContentType.Id);
             if (settings?.EnableSeoSettings != true)
                 return null;
-            return new MetaTagsModel
-            {
-                Title = GetValue(content, settings.GetDefaultTitleFields()),
-                Description = GetValue(content, settings.GetDefaultDescriptionFields())
-            };
+            return new MetaTagsModel(_seoFieldCollection.GetAll().ToDictionary(it => it, it => GetValue(content, settings.Get(it.Alias).Split(','))));
         }
 
         public string GetValue(IPublishedContent content, string[] aliasses)

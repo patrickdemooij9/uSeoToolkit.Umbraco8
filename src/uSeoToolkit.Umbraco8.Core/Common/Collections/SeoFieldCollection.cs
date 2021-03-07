@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Composing;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
@@ -19,7 +20,13 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Collections
 
         public IEnumerable<ISeoField> GetAll()
         {
-            return this;
+            return this.OrderBy(it => GetWeight(it.GetType()));
+        }
+
+        private int GetWeight(Type type)
+        {
+            var attr = type.GetCustomAttributes(typeof(WeightAttribute), false).OfType<WeightAttribute>().SingleOrDefault();
+            return attr?.Weight ?? 0;
         }
     }
 }
