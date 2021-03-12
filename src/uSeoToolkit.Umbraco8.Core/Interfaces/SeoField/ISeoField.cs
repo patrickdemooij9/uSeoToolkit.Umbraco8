@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 
-namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
+namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
 {
     public interface ISeoField
     {
@@ -10,6 +10,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         string Description { get; }
         string View { get; }
         Dictionary<string, object> Config { get; }
+        ISeoFieldEditor Editor { get; }
 
         HtmlString Render(string value);
     }

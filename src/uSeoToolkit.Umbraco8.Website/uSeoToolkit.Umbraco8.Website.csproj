@@ -275,6 +275,10 @@
     <Content Include="App_Plugins\uSeoToolkit\Interface\ContentApps\SeoSettings\seoSettings.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\Dashboards\SiteAudit\siteAuditDashboard.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\Dashboards\SiteAudit\siteAuditDashboard.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\Previewers\BaseTags\baseTagsFieldPreviewer.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\Previewers\BaseTags\baseTagsFieldPreviewer.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\FieldsEditor\fieldsEditor.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\FieldsEditor\fieldsEditor.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\detail.controller.js" />
@@ -350,7 +354,9 @@
       <Name>uSeoToolkit.Umbraco8</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\PropertyEditor\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

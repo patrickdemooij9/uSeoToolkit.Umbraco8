@@ -2,6 +2,8 @@
 using System.Web;
 using Umbraco.Core.Composing;
 using uSeoToolkit.Umbraco8.Core.Constants;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
+using uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
 {
@@ -16,6 +18,8 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         {
             {"dataTypes", new[] { "Umbraco.MediaPicker" }}
         };
+
+        public ISeoFieldEditor Editor => new SeoFieldFieldsEditor(new[] { "Umbraco.MediaPicker" });
 
         public HtmlString Render(string value)
         {

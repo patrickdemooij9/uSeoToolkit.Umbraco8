@@ -8,6 +8,7 @@ using Umbraco.Web.WebApi;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
 using uSeoToolkit.Umbraco8.Core.Interfaces.Services;
 using uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels;
+using uSeoToolkit.Umbraco8.Core.Models.SeoFieldPreviewers;
 using uSeoToolkit.Umbraco8.Core.Models.SeoService.ViewModels;
 using uSeoToolkit.Umbraco8.Core.Services.DocumentTypeSettings;
 
@@ -63,7 +64,8 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
                         Description = field.Description,
                         Values = it.Value.ToArray()
                     };
-                }).ToArray()
+                }).ToArray(),
+                Previewers = new[] { new FieldPreviewerViewModel(new BaseTagsFieldPreviewer()) }
             });
         }
     }

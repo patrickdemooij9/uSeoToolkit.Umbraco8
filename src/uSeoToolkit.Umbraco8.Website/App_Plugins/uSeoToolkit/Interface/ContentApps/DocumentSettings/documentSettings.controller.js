@@ -49,10 +49,6 @@
             vm.model.inheritance = null;
         }
 
-        vm.getAllFields = function (field) {
-            return getAllContentFields(field.config.dataTypes);
-        }
-
         console.log($scope.model);
         console.log($scope.model.groups);
 
@@ -66,29 +62,11 @@
                 vm.loading = false;
                 vm.model = response.data.contentModel;
                 vm.model.nodeId = $scope.model.id;
-
-                vm.model.values.filter(function (f) {
-                    return f.view === "Custom";
-                }).forEach(function (f) {
-                    vm.customSelectedFields[f.alias] = [];
-                    vm.customBaseFields[f.alias] = [];
-                    getAllContentFields(f.config.dataTypes).forEach(function (d) {
-                        if (f.value && f.value.split(',').includes(d.value)) {
-                            vm.customSelectedFields[f.alias].push(d);
-                        } else {
-                            vm.customBaseFields[f.alias].push(d);
-                        }
-                    });
-                });
             });
         }
 
         function save() {
-            vm.model.values.forEach(function (f) {
-                f.value = vm.customSelectedFields[f.alias].map(function (v) {
-                    return v.value;
-                }).join(',');
-            });
+            $scope.$broadcast("uSeoToolkit.SaveDocumentType");
 
             var postModel = {
                 nodeId: vm.model.nodeId,

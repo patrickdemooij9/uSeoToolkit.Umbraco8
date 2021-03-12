@@ -35,20 +35,7 @@
                     </div>
                 </div>
                 <div class="control-group umb-control-group" ng-repeat="field in vm.model.values">
-                    <div class="umb-el-wrap">
-                        <div class="control-header">
-                            <label class="control-label">{{field.title}}</label>
-                            <small class="control-description">
-                                {{field.description}}
-                            </small>
-                        </div>
-                        <div class="controls">
-                            <div class="umb-property-editor" ng-if="field.view === 'Custom'">
-                                <dynamic-select-box base-list="vm.customBaseFields[field.alias]" selected-list="vm.customSelectedFields[field.alias]" field="field">
-
-                                </dynamic-select-box>
-                            </div>
-                        </div>
+                    <div class="umb-el-wrap" ng-include="field.editor.view">
                     </div>
                 </div>
             </div>

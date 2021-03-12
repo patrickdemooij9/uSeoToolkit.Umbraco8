@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Composing;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 using uSeoToolkit.Umbraco8.Core.Models.SeoField;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Collections

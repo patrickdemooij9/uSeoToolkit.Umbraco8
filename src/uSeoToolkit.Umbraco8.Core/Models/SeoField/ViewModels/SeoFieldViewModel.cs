@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
+using uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors.ViewModels;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
 {
@@ -24,6 +26,9 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
         [JsonProperty("config")]
         public Dictionary<string, object> Config { get; set; }
 
+        [JsonProperty("editor")]
+        public SeoFieldEditorViewModel Editor { get; set; }
+
         public SeoFieldViewModel(ISeoField field)
         {
             Alias = field.Alias;
@@ -31,6 +36,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
             Description = field.Description;
             View = field.View;
             Config = field.Config;
+            Editor = new SeoFieldEditorViewModel(field.Editor);
         }
 
         public SeoFieldViewModel(ISeoField field, string value) : this(field)
