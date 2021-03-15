@@ -13,7 +13,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("values")]
-        public string[] Values { get; set; }
+        [JsonProperty("value")]
+        public string Value { get; set; }
     }
 }

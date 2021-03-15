@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using ClientDependency.Core;
+using Lucene.Net.Search;
+using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
@@ -26,20 +28,23 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
             var settings = _documentTypeSettingsService.Get(content.ContentType.Id);
             if (settings?.EnableSeoSettings != true)
                 return null;
-            return new MetaTagsModel(_seoFieldCollection.GetAll().ToDictionary(it => it, it => GetValue(content, settings.Get(it.Alias).Split(','))));
-        }
-
-        public string GetValue(IPublishedContent content, string[] aliasses)
-        {
-            if (aliasses is null) return null;
-            foreach (var alias in aliasses)
+            var fields = _seoFieldCollection.GetAll().ToDictionary(it => it.Alias, it => settings.Get(it.Alias));
+            if (settings.Inheritance != null)
             {
-                var value = content.Value<string>(alias);
-                if (!string.IsNullOrWhiteSpace(value))
-                    return value;
+                var inheritance = settings.Inheritance;
+                while (inheritance != null)
+                {
+                    var inheritedSettings = _documentTypeSettingsService.Get(inheritance.Id);
+                    foreach (var (key, _) in inheritedSettings.Fields)
+                    {
+                        fields[key.Alias] = key.Editor.Inherit(fields[key.Alias], inheritedSettings.Get(key.Alias));
+                    }
+
+                    inheritance = settings.Inheritance;
+                }
             }
 
-            return null;
+            return new MetaTagsModel(fields.ToDictionary(it => _seoFieldCollection.Get(it.Key), it => _seoFieldCollection.Get(it.Key).Editor.GetValue(content, it.Value)));
         }
     }
 }

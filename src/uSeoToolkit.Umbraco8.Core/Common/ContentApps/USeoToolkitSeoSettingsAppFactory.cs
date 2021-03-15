@@ -18,7 +18,7 @@ namespace uSeoToolkit.Umbraco8.Core.Common.ContentApps
 
         public ContentApp GetContentAppFor(object source, IEnumerable<IReadOnlyUserGroup> userGroups)
         {
-            if (!(source is IContent content) || !_documentTypeSettingsService.IsEnabled(content)) return null;
+            if (!(source is IContent content) || !content.HasIdentity || !_documentTypeSettingsService.IsEnabled(content)) return null;
 
             return new ContentApp
             {

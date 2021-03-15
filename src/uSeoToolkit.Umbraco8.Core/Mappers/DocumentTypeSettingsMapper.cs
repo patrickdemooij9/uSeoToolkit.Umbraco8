@@ -1,8 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using ClientDependency.Core;
+using Newtonsoft.Json;
 using Umbraco.Core.Mapping;
 using Umbraco.Core.Services;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
+using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.PostModels;
 
 namespace uSeoToolkit.Umbraco8.Core.Mappers
@@ -26,7 +32,17 @@ namespace uSeoToolkit.Umbraco8.Core.Mappers
                 {
                     target.Content = _contentTypeService.Get(source.NodeId);
                     target.EnableSeoSettings = source.EnableSeoSettings;
-                    target.Fields = source.Fields;
+                    target.Fields = source.Fields.ToDictionary(it => _seoFieldCollection.Get(it.Key), it => it.Value);
+                    target.Inheritance = source.InheritanceId is null ? null : _contentTypeService.Get(source.InheritanceId.Value);
+                });
+
+            mapper.Define<DocumentTypeSettingsEntity, DocumentTypeSettingsDto>(
+                (source, context) => new DocumentTypeSettingsDto(),
+                (source, target, context) =>
+                {
+                    target.Content = _contentTypeService.Get(source.NodeId);
+                    target.EnableSeoSettings = source.EnableSeoSettings;
+                    target.Fields = string.IsNullOrWhiteSpace(source.Fields) ? new Dictionary<ISeoField, string>() : JsonConvert.DeserializeObject<Dictionary<string, string>>(source.Fields).ToDictionary(it => _seoFieldCollection.Get(it.Key), it => it.Value);
                     target.Inheritance = source.InheritanceId is null ? null : _contentTypeService.Get(source.InheritanceId.Value);
                 });
         }

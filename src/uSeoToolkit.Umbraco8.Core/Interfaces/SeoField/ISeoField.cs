@@ -11,6 +11,7 @@ namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
         string View { get; }
         Dictionary<string, object> Config { get; }
         ISeoFieldEditor Editor { get; }
+        //ISeoFieldRenderer Renderer { get; }
 
         HtmlString Render(string value);
     }

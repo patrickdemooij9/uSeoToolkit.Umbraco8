@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Umbraco.Core.Mapping;
 using Umbraco.Core.Persistence;
 using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
@@ -14,11 +16,13 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
     {
         private readonly IScopeProvider _scopeProvider;
         private readonly ServiceContext _services;
+        private readonly Lazy<UmbracoMapper> _mapper;
 
-        public DocumentTypeSettingsRepository(IScopeProvider scopeProvider, ServiceContext services)
+        public DocumentTypeSettingsRepository(IScopeProvider scopeProvider, ServiceContext services, Lazy<UmbracoMapper> mapper)
         {
             _scopeProvider = scopeProvider;
             _services = services;
+            _mapper = mapper;
         }
 
         public IEnumerable<DocumentTypeSettingsDto> GetAll()
@@ -27,7 +31,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             {
                 return scope.Database.Fetch<DocumentTypeSettingsEntity>(scope.SqlContext.Sql()
                     .SelectAll()
-                    .From<DocumentTypeSettingsEntity>()).Select(MapToDto);
+                    .From<DocumentTypeSettingsEntity>()).Select(it => _mapper.Value.Map<DocumentTypeSettingsDto>(it));
             }
         }
 
@@ -35,7 +39,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
         {
             using (var scope = _scopeProvider.CreateScope())
             {
-                return MapToDto(scope.Database.FirstOrDefault<DocumentTypeSettingsEntity>(scope.SqlContext.Sql()
+                return _mapper.Value.Map<DocumentTypeSettingsDto>(scope.Database.FirstOrDefault<DocumentTypeSettingsEntity>(scope.SqlContext.Sql()
                     .SelectAll()
                     .From<DocumentTypeSettingsEntity>()
                     .Where<DocumentTypeSettingsEntity>(it => it.NodeId == id)));
@@ -73,19 +77,6 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             {
                 scope.Database.Delete(entity);
             }
-        }
-
-        private DocumentTypeSettingsDto MapToDto(DocumentTypeSettingsEntity entity)
-        {
-            if (entity is null)
-                return null;
-            var inheritance = entity.InheritanceId != null ? _services.ContentTypeService.Get(entity.InheritanceId.Value) : null;
-            return new DocumentTypeSettingsDto
-            {
-                EnableSeoSettings = entity.EnableSeoSettings,
-                Fields = string.IsNullOrWhiteSpace(entity.Fields) ? new Dictionary<string, string>() : JsonConvert.DeserializeObject<Dictionary<string, string>>(entity.Fields),
-                Inheritance = inheritance
-            };
         }
 
         private DocumentTypeSettingsEntity MapToEntity(DocumentTypeSettingsDto dto)

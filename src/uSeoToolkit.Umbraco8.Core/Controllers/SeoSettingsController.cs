@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using ClientDependency.Core;
+using Umbraco.Web;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
@@ -20,53 +21,41 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
         private readonly ISeoService _seoService;
         private readonly IDocumentTypeSettingsService _documentTypeSettingsService;
         private readonly ISeoFieldCollection _fieldCollection;
+        private readonly IUmbracoContextFactory _umbracoContextFactory;
 
         public SeoSettingsController(ISeoService seoService,
             IDocumentTypeSettingsService documentTypeSettingsService,
-            ISeoFieldCollection fieldCollection)
+            ISeoFieldCollection fieldCollection,
+            IUmbracoContextFactory umbracoContextFactory)
         {
             _seoService = seoService;
             _documentTypeSettingsService = documentTypeSettingsService;
             _fieldCollection = fieldCollection;
+            _umbracoContextFactory = umbracoContextFactory;
         }
 
         public IHttpActionResult Get(int nodeId, int contentTypeId)
         {
-            var documentTypeSettings = _documentTypeSettingsService.Get(contentTypeId);
-            var fields = _fieldCollection.GetAll().ToDictionary(it => it.Alias, it => new List<string>());
-            if (documentTypeSettings.Inheritance != null)
+            using (var ctx = _umbracoContextFactory.EnsureUmbracoContext())
             {
-                var inheritance = documentTypeSettings.Inheritance;
-                while (inheritance != null)
-                {
-                    var settings = _documentTypeSettingsService.Get(inheritance.Id);
-                    foreach (var field in settings.Fields)
-                    {
-                        fields[field.Key].AddRange(field.Value.Split(','));
-                    }
-                    inheritance = settings.Inheritance;
-                }
-            }
+                var content = ctx.UmbracoContext.Content.GetById(true, nodeId);
+                if (content is null)
+                    return NotFound();
 
-            foreach (var field in documentTypeSettings.Fields)
-            {
-                fields[field.Key].AddRange(field.Value.Split(','));
-            }
-            return Json(new SeoSettingsViewModel
-            {
-                Fields = fields.Select(it =>
+                var metaTags = _seoService.Get(content);
+
+                return Json(new SeoSettingsViewModel
                 {
-                    var field = _fieldCollection.Get(it.Key);
-                    return new SeoSettingsFieldViewModel()
+                    Fields = metaTags.Fields.Select(it => new SeoSettingsFieldViewModel
                     {
-                        Alias = field.Alias,
-                        Title = field.Title,
-                        Description = field.Description,
-                        Values = it.Value.ToArray()
-                    };
-                }).ToArray(),
-                Previewers = new[] { new FieldPreviewerViewModel(new BaseTagsFieldPreviewer()) }
-            });
+                        Alias = it.Key.Alias,
+                        Title = it.Key.Title,
+                        Description = it.Key.Description,
+                        Value = it.Value
+                    }).ToArray(),
+                    Previewers = new[] { new FieldPreviewerViewModel(new BaseTagsFieldPreviewer()) }
+                });
+            }
         }
     }
 }
