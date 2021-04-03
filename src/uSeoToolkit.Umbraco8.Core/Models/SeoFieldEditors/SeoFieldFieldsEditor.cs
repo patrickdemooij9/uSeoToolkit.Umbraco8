@@ -43,6 +43,8 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors
                     return stringValue;
                 if (returnValue is IPublishedContent publishedContent)
                     return publishedContent.Url(mode: UrlMode.Absolute);
+                if (returnValue is IEnumerable<IPublishedContent> publishedContents)
+                    return publishedContents.FirstOrDefault().Url(mode: UrlMode.Absolute);
             }
 
             return null;

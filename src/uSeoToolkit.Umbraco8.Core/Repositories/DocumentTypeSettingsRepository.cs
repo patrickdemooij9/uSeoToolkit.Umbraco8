@@ -48,7 +48,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
 
         public DocumentTypeSettingsDto Add(DocumentTypeSettingsDto model)
         {
-            var entity = MapToEntity(model);
+            var entity = _mapper.Value.Map<DocumentTypeSettingsEntity>(model);
             using (var scope = _scopeProvider.CreateScope())
             {
                 scope.Database.Insert(entity);
@@ -61,7 +61,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
         {
             using (var scope = _scopeProvider.CreateScope())
             {
-                scope.Database.Update(MapToEntity(model));
+                scope.Database.Update(_mapper.Value.Map<DocumentTypeSettingsEntity>(model));
                 scope.Complete();
             }
 
@@ -77,19 +77,6 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             {
                 scope.Database.Delete(entity);
             }
-        }
-
-        private DocumentTypeSettingsEntity MapToEntity(DocumentTypeSettingsDto dto)
-        {
-            if (dto is null)
-                return null;
-            return new DocumentTypeSettingsEntity
-            {
-                NodeId = dto.Content.Id,
-                EnableSeoSettings = dto.EnableSeoSettings,
-                Fields = JsonConvert.SerializeObject(dto.Fields),
-                InheritanceId = dto.Inheritance?.Id
-            };
         }
     }
 }

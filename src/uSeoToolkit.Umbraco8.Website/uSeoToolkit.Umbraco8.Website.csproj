@@ -279,6 +279,8 @@
     <Content Include="App_Plugins\uSeoToolkit\Interface\Previewers\BaseTags\baseTagsFieldPreviewer.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\FieldsEditor\fieldsEditor.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\FieldsEditor\fieldsEditor.html" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\PropertyEditor\propertyEditor.controller.js" />
+    <Content Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\PropertyEditor\propertyEditor.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\create.html" />
     <Content Include="App_Plugins\uSeoToolkit\Interface\SiteAudit\detail.controller.js" />
@@ -354,9 +356,7 @@
       <Name>uSeoToolkit.Umbraco8</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Plugins\uSeoToolkit\Interface\SeoFieldEditors\PropertyEditor\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

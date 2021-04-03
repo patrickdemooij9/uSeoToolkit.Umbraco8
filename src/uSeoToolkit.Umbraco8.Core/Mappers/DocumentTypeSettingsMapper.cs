@@ -45,6 +45,16 @@ namespace uSeoToolkit.Umbraco8.Core.Mappers
                     target.Fields = string.IsNullOrWhiteSpace(source.Fields) ? new Dictionary<ISeoField, string>() : JsonConvert.DeserializeObject<Dictionary<string, string>>(source.Fields).ToDictionary(it => _seoFieldCollection.Get(it.Key), it => it.Value);
                     target.Inheritance = source.InheritanceId is null ? null : _contentTypeService.Get(source.InheritanceId.Value);
                 });
+
+            mapper.Define<DocumentTypeSettingsDto, DocumentTypeSettingsEntity>(
+                (source, context) => new DocumentTypeSettingsEntity(),
+                (source, target, context) =>
+                {
+                    target.NodeId = source.Content.Id;
+                    target.EnableSeoSettings = source.EnableSeoSettings;
+                    target.Fields = JsonConvert.SerializeObject(source.Fields?.ToDictionary(it => it.Key.Alias, it => it.Value));
+                    target.InheritanceId = source.Inheritance?.Id;
+                });
         }
     }
 }

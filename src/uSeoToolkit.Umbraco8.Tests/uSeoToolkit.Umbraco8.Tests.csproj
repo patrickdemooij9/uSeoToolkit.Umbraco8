@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Providers\DefaultMetaTagsProviderTests.cs" />
+    <Compile Include="Mappers\DocumentTypeSettingsMapperTests.cs" />
     <Compile Include="Mocks\SeoFieldEditorMock.cs" />
     <Compile Include="Mocks\SeoFieldMock.cs" />
     <Compile Include="Models\SeoFieldEditorsTests\SeoFieldFieldsEditorTests.cs" />

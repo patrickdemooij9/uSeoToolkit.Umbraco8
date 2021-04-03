@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
 
-    function SeoSettingsController($scope, $rootScope, $http, editorState, entityResource) {
+    function SeoSettingsController($scope, $rootScope, $http, editorState) {
 
         var vm = this;
         vm.loading = true;

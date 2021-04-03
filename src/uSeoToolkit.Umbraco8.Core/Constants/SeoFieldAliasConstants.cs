@@ -7,5 +7,6 @@
         public const string OpenGraphTitle = "openGraphTitle";
         public const string OpenGraphDescription = "openGraphDescription";
         public const string OpenGraphImage = "openGraphImage";
+        public const string CanonicalUrl = "canonicalUrl";
     }
 }

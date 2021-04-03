@@ -13,11 +13,6 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         public string Title => "Open Graph Image";
         public string Alias => SeoFieldAliasConstants.OpenGraphImage;
         public string Description => "Image for Open Graph";
-        public string View => "Custom";
-        public Dictionary<string, object> Config => new Dictionary<string, object>
-        {
-            {"dataTypes", new[] { "Umbraco.MediaPicker" }}
-        };
 
         public ISeoFieldEditor Editor => new SeoFieldFieldsEditor(new[] { "Umbraco.MediaPicker" });
 

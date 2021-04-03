@@ -13,7 +13,7 @@ namespace uSeoToolkit.Umbraco8.Tests.Models.SeoFieldEditorsTests
         [TestCase(null, "Test2", "Test2")]
         public void TestInheritValue(string value, string inheritedValue, string result)
         {
-            var editor = new SeoFieldPropertyEditor();
+            var editor = new SeoFieldPropertyEditor("Umbraco.TextArea");
 
             var returnedValue = editor.Inherit(value, inheritedValue);
 

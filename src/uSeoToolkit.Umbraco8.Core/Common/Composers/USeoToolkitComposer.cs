@@ -62,7 +62,8 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Composers
                 .Add<SeoDescriptionField>()
                 .Add<OpenGraphTitleField>()
                 .Add<OpenGraphDescriptionField>()
-                .Add<OpenGraphImageField>();
+                .Add<OpenGraphImageField>()
+                .Add<CanonicalUrlField>();
 
             composition.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
                 .Add<DocumentTypeSettingsMapper>();

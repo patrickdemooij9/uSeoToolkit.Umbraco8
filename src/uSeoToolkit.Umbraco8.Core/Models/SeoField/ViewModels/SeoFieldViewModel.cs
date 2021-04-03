@@ -20,12 +20,6 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        [JsonProperty("view")]
-        public string View { get; set; }
-
-        [JsonProperty("config")]
-        public Dictionary<string, object> Config { get; set; }
-
         [JsonProperty("editor")]
         public SeoFieldEditorViewModel Editor { get; set; }
 
@@ -34,8 +28,6 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
             Alias = field.Alias;
             Title = field.Title;
             Description = field.Description;
-            View = field.View;
-            Config = field.Config;
             Editor = new SeoFieldEditorViewModel(field.Editor);
         }
 
