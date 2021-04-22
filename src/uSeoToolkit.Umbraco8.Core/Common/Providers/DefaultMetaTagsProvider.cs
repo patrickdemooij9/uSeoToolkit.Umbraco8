@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using ClientDependency.Core;
-using Lucene.Net.Search;
+﻿using System.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
+using uSeoToolkit.Umbraco8.Core.Models.SeoField;
 using uSeoToolkit.Umbraco8.Core.Models.SeoService;
 using uSeoToolkit.Umbraco8.Core.Services.DocumentTypeSettings;
+using uSeoToolkit.Umbraco8.Core.Services.SeoValueService;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Providers
 {
@@ -15,12 +13,15 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
     {
         private readonly IDocumentTypeSettingsService _documentTypeSettingsService;
         private readonly ISeoFieldCollection _seoFieldCollection;
+        private readonly SeoValueService _seoValueService;
 
         public DefaultMetaTagsProvider(IDocumentTypeSettingsService documentTypeSettingsService,
-            ISeoFieldCollection seoFieldCollection)
+            ISeoFieldCollection seoFieldCollection,
+            SeoValueService seoValueService)
         {
             _documentTypeSettingsService = documentTypeSettingsService;
             _seoFieldCollection = seoFieldCollection;
+            _seoValueService = seoValueService;
         }
 
         public MetaTagsModel Get(IPublishedContent content)
@@ -28,7 +29,16 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
             var settings = _documentTypeSettingsService.Get(content.ContentType.Id);
             if (settings?.EnableSeoSettings != true)
                 return null;
-            var fields = _seoFieldCollection.GetAll().ToDictionary(it => it.Alias, it => settings.Get(it.Alias));
+            var userValues = _seoValueService.GetUserValues(content.Id);
+            var fields = _seoFieldCollection.GetAll().Select(it =>
+            {
+                if (userValues.ContainsKey(it.Alias) && !it.EditEditor.ValueConverter.IsEmpty(userValues[it.Alias]))
+                {
+                    return new SeoValue(it.Alias, userValues[it.Alias]) { IsUserValue = true };
+                }
+
+                return new SeoValue(it.Alias, settings.Get(it.Alias));
+            }).ToArray();
             if (settings.Inheritance != null)
             {
                 var inheritance = settings.Inheritance;
@@ -37,14 +47,18 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
                     var inheritedSettings = _documentTypeSettingsService.Get(inheritance.Id);
                     foreach (var (key, _) in inheritedSettings.Fields)
                     {
-                        fields[key.Alias] = key.Editor.Inherit(fields[key.Alias], inheritedSettings.Get(key.Alias));
+                        var field = fields.FirstOrDefault(it => it.FieldAlias == key.Alias);
+                        if (field is null || field.IsUserValue)
+                            continue;
+
+                        field.Value = key.Editor.Inherit(field.Value, inheritedSettings.Get(key.Alias));
                     }
 
                     inheritance = settings.Inheritance;
                 }
             }
 
-            return new MetaTagsModel(fields.ToDictionary(it => _seoFieldCollection.Get(it.Key), it => _seoFieldCollection.Get(it.Key).Editor.GetValue(content, it.Value)));
+            return new MetaTagsModel(fields.ToDictionary(it => _seoFieldCollection.Get(it.FieldAlias), it => it.IsUserValue ? _seoFieldCollection.Get(it.FieldAlias).EditEditor.ValueConverter.ConvertDatabaseToSeoValue(it.Value) : _seoFieldCollection.Get(it.FieldAlias).Editor.GetValue(content, it.Value)));
         }
     }
 }

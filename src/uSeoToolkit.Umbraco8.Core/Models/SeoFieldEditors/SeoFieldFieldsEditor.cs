@@ -20,21 +20,23 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors
             _fieldTypes = fieldTypes;
         }
 
-        public string Inherit(string currentValue, string inheritedValue)
+        public object Inherit(object currentValue, object inheritedValue)
         {
-            if (string.IsNullOrWhiteSpace(currentValue))
-                return inheritedValue;
-            if (string.IsNullOrWhiteSpace(inheritedValue))
-                return currentValue;
+            var currentValueString = currentValue?.ToString();
+            var inheritedValueString = inheritedValue?.ToString();
+            if (string.IsNullOrWhiteSpace(currentValueString))
+                return inheritedValueString;
+            if (string.IsNullOrWhiteSpace(inheritedValueString))
+                return currentValueString;
 
-            var inheritedFieldValues = inheritedValue.Split(',').ToList();
-            inheritedFieldValues.AddRange(currentValue.Split(','));
+            var inheritedFieldValues = inheritedValueString.Split(',').ToList();
+            inheritedFieldValues.AddRange(currentValueString.Split(','));
             return string.Join(",", inheritedFieldValues);
         }
 
-        public string GetValue(IPublishedContent content, string value)
+        public string GetValue(IPublishedContent content, object value)
         {
-            var aliases = value?.Split(',');
+            var aliases = value?.ToString().Split(',');
             if (aliases is null) return null;
             foreach (var alias in aliases)
             {

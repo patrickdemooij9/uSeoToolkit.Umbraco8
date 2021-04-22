@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Umbraco.Core.Models;
-using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.PostModels
 {

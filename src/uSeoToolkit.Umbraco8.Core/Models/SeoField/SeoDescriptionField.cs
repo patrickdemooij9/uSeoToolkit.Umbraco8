@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using Umbraco.Core.Composing;
+using uSeoToolkit.Umbraco8.Core.Common.Converters.SeoValueConverters;
 using uSeoToolkit.Umbraco8.Core.Constants;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SeoValueConverters;
+using uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditEditors;
 using uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
@@ -15,6 +18,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         public string Description => "Meta description for the page";
 
         public ISeoFieldEditor Editor => new SeoFieldFieldsEditor(new[] { "Umbraco.TextBox", "Umbraco.TextArea" });
+        public ISeoFieldEditEditor EditEditor => new SeoTextAreaEditEditor();
 
         public HtmlString Render(string value)
         {

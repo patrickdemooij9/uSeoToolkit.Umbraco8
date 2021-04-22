@@ -15,6 +15,7 @@ using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 using uSeoToolkit.Umbraco8.Core.Mappers;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database;
+using uSeoToolkit.Umbraco8.Core.Models.SeoField;
 using uSeoToolkit.Umbraco8.Tests.Mocks;
 
 namespace uSeoToolkit.Umbraco8.Tests.Mappers

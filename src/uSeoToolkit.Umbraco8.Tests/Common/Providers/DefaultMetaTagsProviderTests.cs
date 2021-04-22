@@ -7,6 +7,7 @@ using uSeoToolkit.Umbraco8.Core.Common.Providers;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
 using uSeoToolkit.Umbraco8.Core.Services.DocumentTypeSettings;
+using uSeoToolkit.Umbraco8.Core.Services.SeoValueService;
 using uSeoToolkit.Umbraco8.Tests.Mocks;
 
 namespace uSeoToolkit.Umbraco8.Tests.Common.Providers
@@ -33,8 +34,9 @@ namespace uSeoToolkit.Umbraco8.Tests.Common.Providers
             var seoFieldCollection = new Mock<ISeoFieldCollection>();
             seoFieldCollection.Setup(it => it.GetAll()).Returns(seoField.AsEnumerableOfOne());
             seoFieldCollection.Setup(it => it.Get("test")).Returns(seoField);
+            var seoValueService = new Mock<SeoValueService>();
 
-            var metaTagsProvider = new DefaultMetaTagsProvider(documentTypeSettingsService.Object, seoFieldCollection.Object);
+            var metaTagsProvider = new DefaultMetaTagsProvider(documentTypeSettingsService.Object, seoFieldCollection.Object, seoValueService.Object);
 
             var metaTags = metaTagsProvider.Get(contentMock.Object);
 

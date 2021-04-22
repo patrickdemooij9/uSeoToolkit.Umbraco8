@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
 {
@@ -15,5 +16,14 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
 
         [JsonProperty("value")]
         public string Value { get; set; }
+
+        [JsonProperty("userValue")]
+        public object UserValue { get; set; }
+
+        [JsonProperty("editView")]
+        public string EditView { get; set; }
+
+        [JsonProperty("editConfig")]
+        public Dictionary<string, object> EditConfig { get; set; }
     }
 }

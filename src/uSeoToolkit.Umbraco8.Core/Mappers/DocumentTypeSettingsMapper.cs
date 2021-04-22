@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using ClientDependency.Core;
@@ -10,6 +11,7 @@ using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.PostModels;
+using uSeoToolkit.Umbraco8.Core.Models.SeoField;
 
 namespace uSeoToolkit.Umbraco8.Core.Mappers
 {
@@ -42,7 +44,7 @@ namespace uSeoToolkit.Umbraco8.Core.Mappers
                 {
                     target.Content = _contentTypeService.Get(source.NodeId);
                     target.EnableSeoSettings = source.EnableSeoSettings;
-                    target.Fields = string.IsNullOrWhiteSpace(source.Fields) ? new Dictionary<ISeoField, string>() : JsonConvert.DeserializeObject<Dictionary<string, string>>(source.Fields).ToDictionary(it => _seoFieldCollection.Get(it.Key), it => it.Value);
+                    target.Fields = string.IsNullOrWhiteSpace(source.Fields) ? new Dictionary<ISeoField, string>() : JsonConvert.DeserializeObject<DocumentTypeFieldEntity[]>(source.Fields).ToDictionary(it => _seoFieldCollection.Get(it.Alias), it => it.Value?.ToString());
                     target.Inheritance = source.InheritanceId is null ? null : _contentTypeService.Get(source.InheritanceId.Value);
                 });
 
@@ -52,7 +54,11 @@ namespace uSeoToolkit.Umbraco8.Core.Mappers
                 {
                     target.NodeId = source.Content.Id;
                     target.EnableSeoSettings = source.EnableSeoSettings;
-                    target.Fields = JsonConvert.SerializeObject(source.Fields?.ToDictionary(it => it.Key.Alias, it => it.Value));
+                    target.Fields = JsonConvert.SerializeObject(source.Fields?.Select(it => new DocumentTypeFieldEntity
+                    {
+                        Alias = it.Key.Alias,
+                        Value = it.Value
+                    }).ToArray() ?? Array.Empty<DocumentTypeFieldEntity>());
                     target.InheritanceId = source.Inheritance?.Id;
                 });
         }

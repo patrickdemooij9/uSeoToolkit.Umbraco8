@@ -5,32 +5,55 @@
 
         var vm = this;
         vm.loading = true;
+        vm.edit = false;
 
         vm.metaValues = {};
 
-        function init() {
-            console.log(editorState.current);
+        vm.startEdit = startEdit;
+        vm.finishEdit = finishEdit;
 
+        function init() {
             $http.get("backoffice/uSeoToolkit/SeoSettings/Get?nodeId=" + editorState.current.id + "&contentTypeId=" + editorState.current.contentTypeId).then(
                 function (response) {
                     vm.fields = response.data.fields;
-
-                    updateMeta();
-
                     vm.loading = false;
                 });
         }
 
-        function updateMeta() {
+        function startEdit() {
+            vm.fields.forEach(function (field) {
+                field.editModel = {
+                    view: field.editView,
+                    value: field.userValue,
+                    config: field.editConfig
+                }
+            });
+            vm.edit = true;
+        }
+
+        function finishEdit() {
+            $scope.$broadcast("formSubmitting");
+
+            const userValues = Object.assign({},
+                ...vm.fields.map(function (field) {
+                    return ({ [field.alias]: field.editModel.value });
+                }));
+
+            $http.post("backoffice/uSeoToolkit/SeoSettings/Save",
+                {
+                    nodeId: editorState.current.id,
+                    contentTypeId: editorState.current.contentTypeId,
+                    userValues: userValues
+                }).then(function (response) {
+                    vm.edit = false;
+                    vm.fields = response.data.fields;
+                });
         }
 
         $rootScope.$on("app.tabChange",
             (e, data) => {
                 if (data.alias !== "seoSettings") {
                     return;
-                }
-                if (!vm.loading) {
-                    updateMeta();
                 }
             });
 

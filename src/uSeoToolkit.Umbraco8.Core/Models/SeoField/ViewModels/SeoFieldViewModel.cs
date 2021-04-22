@@ -18,7 +18,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
         public string Description { get; set; }
 
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         [JsonProperty("editor")]
         public SeoFieldEditorViewModel Editor { get; set; }
@@ -31,7 +31,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField.ViewModels
             Editor = new SeoFieldEditorViewModel(field.Editor);
         }
 
-        public SeoFieldViewModel(ISeoField field, string value) : this(field)
+        public SeoFieldViewModel(ISeoField field, object value) : this(field)
         {
             Value = value;
         }

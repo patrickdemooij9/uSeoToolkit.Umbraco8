@@ -8,7 +8,7 @@ namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
         string View { get; }
         Dictionary<string, object> Config { get; }
 
-        string Inherit(string currentValue, string inheritedValue);
-        string GetValue(IPublishedContent content, string value);
+        object Inherit(object currentValue, object inheritedValue);
+        string GetValue(IPublishedContent content, object value);
     }
 }

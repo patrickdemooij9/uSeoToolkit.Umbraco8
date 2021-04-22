@@ -1,5 +1,7 @@
 ﻿using Umbraco.Core.Migrations;
+using Umbraco.Web.Models.ContentEditing;
 using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Database;
+using uSeoToolkit.Umbraco8.Core.Models.SeoSettings.Database;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Migrations
@@ -32,6 +34,12 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Migrations
             if (!TableExists("uSeoToolkitDocumentTypeSettings"))
             {
                 Create.Table<DocumentTypeSettingsEntity>().Do();
+            }
+
+            if (!TableExists("uSeoToolkitSeoValue"))
+            {
+                Create.Table<SeoValueEntity>().Do();
+                //Database.Execute("ALTER TABLE [uSeoToolkitSeoValue] ADD CONSTRAINT [PK_uSeoToolkitSeoValue] PRIMARY KEY  ([Member], [MemberGroup]) ");
             }
         }
     }

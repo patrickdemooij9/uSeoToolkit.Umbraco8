@@ -87,16 +87,6 @@
             });
         }
 
-        function getAllContentFields(fields) {
-            return $scope.model.groups.flatMap(function (g) {
-                return g.properties;
-            }).filter(function (g) {
-                return fields.includes(g.editor);
-            }).map(function (g) {
-                return { name: g.label, value: g.alias };
-            });
-        }
-
         init();
     }
 

@@ -4,7 +4,12 @@
             <umb-button action="vm.startEdit()"
                         type="button"
                         button-style="outline"
-                        label="Edit">
+                        label="Edit" ng-if="!vm.edit">
+            </umb-button>
+            <umb-button action="vm.finishEdit()"
+                        type="button"
+                        button-style="outline"
+                        label="Finish" ng-if="vm.edit">
             </umb-button>
         </umb-editor-sub-header-content-right>
     </umb-editor-sub-header>
@@ -16,11 +21,17 @@
                     <div class="umb-el-wrap">
                         <div class="control-header">
                             <label class="control-label">{{field.title}}</label>
+                            <small class="control-description">
+                                {{vm.field.description}}
+                            </small>
                         </div>
                         <div class="controls">
-                            <div class="umb-property-editor">
+                            <div class="umb-property-editor" ng-if="!vm.edit">
                                 {{field.value}}
                             </div>
+                            <umb-property-editor class="umb-property-editor" model="field.editModel" ng-if="vm.edit">
+
+                            </umb-property-editor>
                         </div>
                     </div>
                 </div>

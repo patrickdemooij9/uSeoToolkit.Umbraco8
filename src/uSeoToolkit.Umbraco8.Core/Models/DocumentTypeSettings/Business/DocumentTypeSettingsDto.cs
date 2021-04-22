@@ -3,6 +3,7 @@ using System.Linq;
 using Umbraco.Core.Models;
 using uSeoToolkit.Umbraco8.Core.Constants;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
+using uSeoToolkit.Umbraco8.Core.Models.SeoField;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business
 {
@@ -21,10 +22,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business
         public string Get(string alias)
         {
             var valuePair = Fields.FirstOrDefault(it => it.Key.Alias.Equals(alias));
-            return valuePair.Key is null ? string.Empty : valuePair.Value;
+            return valuePair.Key is null ? null : valuePair.Value;
         }
-
-        public string[] GetDefaultTitleFields() => Get(SeoFieldAliasConstants.Title).Split(',');
-        public string[] GetDefaultDescriptionFields() => Get(SeoFieldAliasConstants.MetaDescription).Split(',');
     }
 }
