@@ -1,8 +1,7 @@
 ﻿using Umbraco.Core;
-using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 
-namespace uSeoToolkit.Umbraco8.Core.Common.Converters.SeoValueConverters
+namespace uSeoToolkit.Umbraco8.Core.Common.Converters.EditorConverters
 {
     public class UmbracoMediaUdiConverter : UmbracoUdiConverter
     {
@@ -13,14 +12,14 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Converters.SeoValueConverters
             _umbracoContextFactory = umbracoContextFactory;
         }
 
-        public override string ConvertDatabaseToSeoValue(object value)
+        public override object ConvertDatabaseToObject(object value)
         {
             if (!Udi.TryParse(value?.ToString(), out var udi))
                 return null;
 
             using (var ctx = _umbracoContextFactory.EnsureUmbracoContext())
             {
-                return ctx.UmbracoContext.Media.GetById(udi)?.Url(mode: UrlMode.Absolute);
+                return ctx.UmbracoContext.Media.GetById(udi);
             }
         }
     }

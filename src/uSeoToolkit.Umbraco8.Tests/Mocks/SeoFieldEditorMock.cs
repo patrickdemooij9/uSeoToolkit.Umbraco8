@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Umbraco.Core.Models.PublishedContent;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Converters;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 
 namespace uSeoToolkit.Umbraco8.Tests.Mocks
@@ -11,6 +12,7 @@ namespace uSeoToolkit.Umbraco8.Tests.Mocks
         private readonly Func<IPublishedContent, object, string> _getValueFunc;
         public string View { get; set; }
         public Dictionary<string, object> Config { get; set; }
+        public IEditorValueConverter ValueConverter { get; set; }
 
         public SeoFieldEditorMock(Func<object, object, object> inheritFunc = null, Func<IPublishedContent, object, string> getValueFunc = null)
         {

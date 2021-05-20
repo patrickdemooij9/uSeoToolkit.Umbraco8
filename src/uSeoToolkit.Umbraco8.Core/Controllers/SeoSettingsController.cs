@@ -58,14 +58,14 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
                     {
                         var (key, value) = it;
                         var userValue = userValues.ContainsKey(key.Alias)
-                            ? key.EditEditor.ValueConverter.ConvertDatabaseToEditorValue(userValues[key.Alias])
+                            ? key.EditEditor.ValueConverter.ConvertObjectToEditorValue(key.EditEditor.ValueConverter.ConvertDatabaseToObject(userValues[key.Alias]))
                             : null;
                         return new SeoSettingsFieldViewModel
                         {
                             Alias = key.Alias,
                             Title = key.Title,
                             Description = key.Description,
-                            Value = value,
+                            Value = value?.ToString(),
                             UserValue = userValue,
                             EditView = key.EditEditor.View,
                             EditConfig = key.EditEditor.Config

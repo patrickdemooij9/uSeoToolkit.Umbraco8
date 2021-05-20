@@ -1,14 +1,15 @@
-﻿namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
+﻿using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
+
+namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
 {
     public class SeoValue
     {
-        public string FieldAlias { get; }
+        public ISeoField Field { get; }
         public object Value { get; set; }
-        public bool IsUserValue { get; set; }
 
-        public SeoValue(string fieldAlias, object value)
+        public SeoValue(ISeoField field, object value)
         {
-            FieldAlias = fieldAlias;
+            Field = field;
             Value = value;
         }
     }

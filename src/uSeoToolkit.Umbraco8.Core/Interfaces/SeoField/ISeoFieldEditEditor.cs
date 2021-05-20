@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using uSeoToolkit.Umbraco8.Core.Interfaces.SeoValueConverters;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Converters;
 
 namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
 {
@@ -7,6 +7,6 @@ namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
     {
         string View { get; }
         Dictionary<string, object> Config { get; }
-        ISeoValueConverter ValueConverter { get; }
+        IEditorValueConverter ValueConverter { get; }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
+using uSeoToolkit.Umbraco8.Core.Common.Converters.EditorConverters;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Converters;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors
@@ -17,10 +19,14 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors
             {"view", _propertyView}
         };
 
-        public SeoFieldPropertyEditor(string propertyView, Func<IPublishedContent, object, string> getValueTransformation = null)
+        public IEditorValueConverter ValueConverter { get; }
+
+        public SeoFieldPropertyEditor(string propertyView, Func<IPublishedContent, object, string> getValueTransformation = null, IEditorValueConverter valueConverter = null)
         {
             _propertyView = propertyView;
             _getValueTransformation = getValueTransformation;
+
+            ValueConverter = valueConverter ?? new TextValueConverter();
         }
 
         public object Inherit(object currentValue, object inheritedValue)

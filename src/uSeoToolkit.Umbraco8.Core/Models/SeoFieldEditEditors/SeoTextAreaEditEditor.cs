@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using uSeoToolkit.Umbraco8.Core.Common.Converters.SeoValueConverters;
+using uSeoToolkit.Umbraco8.Core.Common.Converters.EditorConverters;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Converters;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
-using uSeoToolkit.Umbraco8.Core.Interfaces.SeoValueConverters;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditEditors
 {
@@ -9,11 +9,11 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditEditors
     {
         public string View => "Textarea";
         public Dictionary<string, object> Config { get; }
-        public ISeoValueConverter ValueConverter { get; }
+        public IEditorValueConverter ValueConverter { get; }
 
         public SeoTextAreaEditEditor()
         {
-            ValueConverter = new TextSeoValueConverter();
+            ValueConverter = new TextValueConverter();
         }
     }
 }

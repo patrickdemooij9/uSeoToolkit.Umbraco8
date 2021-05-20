@@ -1,4 +1,4 @@
-﻿(function() {
+﻿(function () {
     "use strict";
 
     function fieldsEditorController($scope) {
@@ -10,8 +10,8 @@
         vm.customBaseFields = [];
 
         function init() {
-            getAllContentFields(vm.field.editor.config.dataTypes).forEach(function(d) {
-                if (vm.field.value && vm.field.value.split(',').includes(d.value)) {
+            getAllContentFields(vm.field.editor.config.dataTypes).forEach(function (d) {
+                if (vm.field.value && vm.field.value.includes(d.value)) {
                     vm.customSelectedFields.push(d);
                 } else {
                     vm.customBaseFields.push(d);
@@ -34,7 +34,7 @@
         function beforeSaveEventHandler($event, $args) {
             vm.field.value = vm.customSelectedFields.map(function (v) {
                 return v.value;
-            }).join(',');
+            });
         }
 
         init();

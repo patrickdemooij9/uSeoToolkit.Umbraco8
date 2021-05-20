@@ -32,7 +32,7 @@ namespace uSeoToolkit.Umbraco8.Tests.Mappers
             {
                 EnableSeoSettings = true,
                 Content = contentTypeMock.Object,
-                Fields = new Dictionary<ISeoField, string>
+                Fields = new Dictionary<ISeoField, object>
                 {
                     {new SeoFieldMock {Alias = "Test1"}, "TestValue"},
                     {new SeoFieldMock {Alias = "Test2"}, "Test2Value"}

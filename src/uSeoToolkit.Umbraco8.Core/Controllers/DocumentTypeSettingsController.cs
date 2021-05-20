@@ -32,7 +32,7 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
         {
             var model = _documentTypeSettingsService.Get(nodeId);
             var content = model != null ? 
-                new DocumentTypeSettingsContentViewModel(model, _seoFieldCollection.GetAll().Select(it => new SeoFieldViewModel(it, model.Get(it.Alias))).ToArray()) :
+                new DocumentTypeSettingsContentViewModel(model, _seoFieldCollection.GetAll().Select(it => new SeoFieldViewModel(it, it.Editor.ValueConverter.ConvertObjectToEditorValue(model.Get(it.Alias)))).ToArray()) :
                 new DocumentTypeSettingsContentViewModel(_seoFieldCollection.GetAll().Select(it => new SeoFieldViewModel(it)).ToArray());
             return Json(new DocumentTypeSettingsViewModel
             {

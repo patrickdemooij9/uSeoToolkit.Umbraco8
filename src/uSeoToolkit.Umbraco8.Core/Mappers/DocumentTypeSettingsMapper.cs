@@ -34,7 +34,14 @@ namespace uSeoToolkit.Umbraco8.Core.Mappers
                 {
                     target.Content = _contentTypeService.Get(source.NodeId);
                     target.EnableSeoSettings = source.EnableSeoSettings;
-                    target.Fields = source.Fields.ToDictionary(it => _seoFieldCollection.Get(it.Key), it => it.Value);
+                    foreach (var item in source.Fields)
+                    {
+                        var field = _seoFieldCollection.Get(item.Key);
+                        if (field is null)
+                            continue;
+
+                        target.Fields.Add(field, field.Editor.ValueConverter.ConvertEditorToDatabaseValue(item.Value));
+                    }
                     target.Inheritance = source.InheritanceId is null ? null : _contentTypeService.Get(source.InheritanceId.Value);
                 });
 
@@ -44,7 +51,18 @@ namespace uSeoToolkit.Umbraco8.Core.Mappers
                 {
                     target.Content = _contentTypeService.Get(source.NodeId);
                     target.EnableSeoSettings = source.EnableSeoSettings;
-                    target.Fields = string.IsNullOrWhiteSpace(source.Fields) ? new Dictionary<ISeoField, string>() : JsonConvert.DeserializeObject<DocumentTypeFieldEntity[]>(source.Fields).ToDictionary(it => _seoFieldCollection.Get(it.Alias), it => it.Value?.ToString());
+                    if (!string.IsNullOrWhiteSpace(source.Fields))
+                    {
+                        var fields = JsonConvert.DeserializeObject<DocumentTypeFieldEntity[]>(source.Fields);
+                        foreach (var item in fields)
+                        {
+                            var field = _seoFieldCollection.Get(item.Alias);
+                            if (field is null)
+                                continue;
+
+                            target.Fields.Add(field, field.Editor.ValueConverter.ConvertDatabaseToObject(item.Value));
+                        }
+                    }
                     target.Inheritance = source.InheritanceId is null ? null : _contentTypeService.Get(source.InheritanceId.Value);
                 });
 

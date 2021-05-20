@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
-using uSeoToolkit.Umbraco8.Core.Interfaces.SeoValueConverters;
 
 namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
 {
@@ -9,10 +9,11 @@ namespace uSeoToolkit.Umbraco8.Core.Interfaces.SeoField
         string Title { get; }
         string Alias { get; }
         string Description { get; }
+        Type FieldType { get; }
         ISeoFieldEditor Editor { get; }
         ISeoFieldEditEditor EditEditor { get; }
         //ISeoFieldRenderer Renderer { get; }
 
-        HtmlString Render(string value);
+        HtmlString Render(object value);
     }
 }

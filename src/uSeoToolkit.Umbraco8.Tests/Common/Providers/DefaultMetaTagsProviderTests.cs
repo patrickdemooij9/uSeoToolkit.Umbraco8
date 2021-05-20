@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using Umbraco.Core;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using uSeoToolkit.Umbraco8.Core.Common.Providers;
@@ -35,8 +36,10 @@ namespace uSeoToolkit.Umbraco8.Tests.Common.Providers
             seoFieldCollection.Setup(it => it.GetAll()).Returns(seoField.AsEnumerableOfOne());
             seoFieldCollection.Setup(it => it.Get("test")).Returns(seoField);
             var seoValueService = new Mock<SeoValueService>();
+            var seoConverterCollection = new Mock<ISeoConverterCollection>();
+            var logger = new Mock<ILogger>();
 
-            var metaTagsProvider = new DefaultMetaTagsProvider(documentTypeSettingsService.Object, seoFieldCollection.Object, seoValueService.Object);
+            var metaTagsProvider = new DefaultMetaTagsProvider(documentTypeSettingsService.Object, seoFieldCollection.Object, seoValueService.Object, seoConverterCollection.Object, logger.Object);
 
             var metaTags = metaTagsProvider.Get(contentMock.Object);
 

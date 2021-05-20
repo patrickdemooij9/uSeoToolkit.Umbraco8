@@ -57,6 +57,7 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Composers
             composition.Register(typeof(SiteAuditHubClientService), Lifetime.Singleton);
             composition.Register(typeof(SeoValueService));
             composition.Register(typeof(ISeoValueRepository), typeof(SeoValueDatabaseRepository));
+            composition.Register(typeof(ISeoConverterCollection), typeof(SeoConverterCollection));
 
             composition.WithCollectionBuilder<SiteAuditCheckCollectionBuilder>()
                 .Append<BrokenLinkCheck>();
@@ -68,6 +69,11 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Composers
                 .Add<OpenGraphDescriptionField>()
                 .Add<OpenGraphImageField>()
                 .Add<CanonicalUrlField>();
+
+            composition.WithCollectionBuilder<SeoConverterCollectionBuilder>()
+                .Add<TextSeoValueConverter>()
+                .Add<PublishedContentSeoValueConverter>()
+                .Add<FieldSeoValueConverter>();
 
             composition.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
                 .Add<DocumentTypeSettingsMapper>();

@@ -1,5 +1,8 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using Umbraco.Core.Composing;
+using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using uSeoToolkit.Umbraco8.Core.Constants;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
@@ -15,6 +18,7 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
         public string Title => "Open Graph Image";
         public string Alias => SeoFieldAliasConstants.OpenGraphImage;
         public string Description => "Image for Open Graph";
+        public Type FieldType => typeof(string);
 
         public ISeoFieldEditor Editor => new SeoFieldFieldsEditor(new[] { "Umbraco.MediaPicker" });
         public ISeoFieldEditEditor EditEditor => new SeoImageEditEditor(_umbracoContextFactory);
@@ -24,9 +28,19 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoField
             _umbracoContextFactory = umbracoContextFactory;
         }
 
-        public HtmlString Render(string value)
+        public HtmlString Render(object value)
         {
-            return new HtmlString($"<meta property='og:image' content='{value}'/>");
+            string url;
+            if (value is IPublishedContent media)
+            {
+                url = media.Url(mode: UrlMode.Absolute);
+            }
+            else
+            {
+                url = value?.ToString();
+            }
+
+            return new HtmlString($"<meta property='og:image' content='{url}'/>");
         }
     }
 }

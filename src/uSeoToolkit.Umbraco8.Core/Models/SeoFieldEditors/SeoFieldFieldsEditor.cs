@@ -2,6 +2,8 @@
 using System.Linq;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
+using uSeoToolkit.Umbraco8.Core.Common.Converters.EditorConverters;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Converters;
 using uSeoToolkit.Umbraco8.Core.Interfaces.SeoField;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors
@@ -15,9 +17,13 @@ namespace uSeoToolkit.Umbraco8.Core.Models.SeoFieldEditors
             {"dataTypes", _fieldTypes}
         };
 
+        public IEditorValueConverter ValueConverter { get; }
+
         public SeoFieldFieldsEditor(string[] fieldTypes)
         {
             _fieldTypes = fieldTypes;
+
+            ValueConverter = new FieldValueConverter();
         }
 
         public object Inherit(object currentValue, object inheritedValue)
