@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div ng-show="vm.model.enableSeoSettings">
-                <div class="control-group umb-control-group">
+                <!--<div class="control-group umb-control-group">
                     <div class="umb-el-wrap">
                         <div class="control-header">
                             <label class="control-label">Inheritance</label>
@@ -33,7 +33,7 @@
                             <i class="icon-delete" ng-if="vm.model.inheritance != null" ng-click="vm.removeInheritance()"></i>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="control-group umb-control-group" ng-repeat="field in vm.model.values">
                     <div class="umb-el-wrap" ng-include="field.editor.view">
                     </div>

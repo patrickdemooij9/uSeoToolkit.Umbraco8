@@ -27,7 +27,12 @@
                         </div>
                         <div class="controls">
                             <div class="umb-property-editor" ng-if="!vm.edit">
-                                {{field.value}}
+                                <a href="{{field.value}}" ng-if="vm.isUrl(field.value)">
+                                    {{field.value}}
+                                </a>
+                                <div ng-if="!vm.isUrl(field.value)">
+                                    {{field.value}}
+                                </div>
                             </div>
                             <umb-property-editor class="umb-property-editor" model="field.editModel" ng-if="vm.edit">
 

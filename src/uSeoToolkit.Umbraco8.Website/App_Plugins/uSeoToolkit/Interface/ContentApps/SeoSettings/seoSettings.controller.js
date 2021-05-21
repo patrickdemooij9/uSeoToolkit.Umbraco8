@@ -11,6 +11,7 @@
 
         vm.startEdit = startEdit;
         vm.finishEdit = finishEdit;
+        vm.isUrl = isUrl;
 
         function init() {
             $http.get("backoffice/uSeoToolkit/SeoSettings/Get?nodeId=" + editorState.current.id + "&contentTypeId=" + editorState.current.contentTypeId).then(
@@ -48,6 +49,13 @@
                     vm.edit = false;
                     vm.fields = response.data.fields;
                 });
+        }
+
+        function isUrl(value) {
+            if (value && value.startsWith('http')) {
+                return true;
+            }
+            return false;
         }
 
         $rootScope.$on("app.tabChange",
