@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models.PublishedContent;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Services;
 using uSeoToolkit.Umbraco8.Core.Models.SeoField;
 using uSeoToolkit.Umbraco8.Core.Models.SeoService;
 using uSeoToolkit.Umbraco8.Core.Services.DocumentTypeSettings;
@@ -14,13 +16,15 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
     {
         private readonly IDocumentTypeSettingsService _documentTypeSettingsService;
         private readonly ISeoFieldCollection _seoFieldCollection;
-        private readonly SeoValueService _seoValueService;
+        private readonly ISeoValueService _seoValueService;
         private readonly ISeoConverterCollection _seoConverterCollection;
         private readonly ILogger _logger;
 
+        public event EventHandler<MetaTagsModel> BeforeMetaTagsGet;
+
         public DefaultMetaTagsProvider(IDocumentTypeSettingsService documentTypeSettingsService,
             ISeoFieldCollection seoFieldCollection,
-            SeoValueService seoValueService,
+            ISeoValueService seoValueService,
             ISeoConverterCollection seoConverterCollection,
             ILogger logger)
         {
@@ -33,14 +37,23 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
 
         public MetaTagsModel Get(IPublishedContent content)
         {
+            var allFields = _seoFieldCollection.GetAll().ToArray();
+
+            //Make sure that the fields are set, otherwise the values cannot be set!
+            var metaTags = new MetaTagsModel(allFields.ToDictionary(it => it, it => (object)null));
+            BeforeMetaTagsGet?.Invoke(this, metaTags);
+
             var settings = _documentTypeSettingsService.Get(content.ContentType.Id);
             if (settings?.EnableSeoSettings != true)
                 return null;
             var userValues = _seoValueService.GetUserValues(content.Id);
-            var fields = _seoFieldCollection.GetAll().Select(it =>
+            var fields = allFields.Select(it =>
             {
+                if (metaTags.GetValue<object>(it.Alias) != null)
+                    return null;
+
                 object intermediateObject = null;
-                if (userValues.ContainsKey(it.Alias))
+                if (userValues?.ContainsKey(it.Alias) is true)
                 {
                     var result = it.EditEditor.ValueConverter.ConvertDatabaseToObject(userValues[it.Alias]);
                     if (!it.EditEditor.ValueConverter.IsEmpty(result))
@@ -60,7 +73,7 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
 
                 _logger.Warn(GetType(), "No converter found for conversion {0} to {1}", intermediateObject.GetType(), it.FieldType);
                 return new SeoValue(it, intermediateObject);
-            }).ToArray();
+            }).WhereNotNull().ToArray();
 
             //TODO: Redo inheritance
             /*if (settings.Inheritance != null)
@@ -82,7 +95,12 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Providers
                 }
             }*/
 
-            return new MetaTagsModel(fields.ToDictionary(it => it.Field, it => it.Value));
+            foreach (var fieldValue in fields)
+            {
+                metaTags.SetValue(fieldValue.Field.Alias, fieldValue.Value);
+            }
+
+            return metaTags;
         }
     }
 }

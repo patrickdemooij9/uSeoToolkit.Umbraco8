@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Umbraco.Core;
 using uSeoToolkit.Umbraco8.Core.Interfaces;
+using uSeoToolkit.Umbraco8.Core.Interfaces.Services;
 
 namespace uSeoToolkit.Umbraco8.Core.Services.SeoValueService
 {
-    public class SeoValueService
+    public class SeoValueService : ISeoValueService
     {
         private readonly ISeoValueRepository _repository;
 

@@ -25,13 +25,13 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
         private readonly IDocumentTypeSettingsService _documentTypeSettingsService;
         private readonly ISeoFieldCollection _fieldCollection;
         private readonly IUmbracoContextFactory _umbracoContextFactory;
-        private readonly SeoValueService _seoValueService;
+        private readonly ISeoValueService _seoValueService;
 
         public SeoSettingsController(ISeoService seoService,
             IDocumentTypeSettingsService documentTypeSettingsService,
             ISeoFieldCollection fieldCollection,
             IUmbracoContextFactory umbracoContextFactory,
-            SeoValueService seoValueService)
+            ISeoValueService seoValueService)
         {
             _seoService = seoService;
             _documentTypeSettingsService = documentTypeSettingsService;

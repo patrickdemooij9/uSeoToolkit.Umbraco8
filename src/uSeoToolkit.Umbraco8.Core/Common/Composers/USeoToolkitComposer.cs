@@ -55,7 +55,7 @@ namespace uSeoToolkit.Umbraco8.Core.Common.Composers
             composition.Register(typeof(ISeoService), typeof(SeoService));
             composition.Register(typeof(IMetaTagsProvider), typeof(DefaultMetaTagsProvider));
             composition.Register(typeof(SiteAuditHubClientService), Lifetime.Singleton);
-            composition.Register(typeof(SeoValueService));
+            composition.Register(typeof(ISeoValueService), typeof(SeoValueService));
             composition.Register(typeof(ISeoValueRepository), typeof(SeoValueDatabaseRepository));
             composition.Register(typeof(ISeoConverterCollection), typeof(SeoConverterCollection));
 
