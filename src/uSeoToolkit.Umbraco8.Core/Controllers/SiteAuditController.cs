@@ -39,6 +39,17 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
             return Json(new SiteAuditDetailViewModel(model));
         }
 
+        [HttpPost]
+        public IHttpActionResult Delete(int[] ids)
+        {
+            foreach (var id in ids)
+            {
+                _siteAuditService.Delete(id);
+            }
+
+            return GetAll();
+        }
+
         //SignalR stuff
         [HttpGet]
         public IHttpActionResult Connect(int auditId, string clientId)
