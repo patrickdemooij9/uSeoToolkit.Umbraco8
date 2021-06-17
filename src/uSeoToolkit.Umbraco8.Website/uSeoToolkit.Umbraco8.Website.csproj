@@ -264,6 +264,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Umbraco.sdf" />
     <Content Include="App_Plugins\uSeoToolkit\backoffice\SiteAudit\create.controller.js" />
     <Content Include="App_Plugins\uSeoToolkit\backoffice\SiteAudit\create.html" />
     <Content Include="App_Plugins\uSeoToolkit\backoffice\SiteAudit\detail.controller.js" />
