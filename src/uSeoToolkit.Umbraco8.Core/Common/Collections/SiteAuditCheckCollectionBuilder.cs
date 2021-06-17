@@ -1,5 +1,5 @@
-﻿using SeoToolkit.Core.Interfaces.SiteAudit;
-using Umbraco.Core.Composing;
+﻿using Umbraco.Core.Composing;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SiteAudit;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Collections
 {

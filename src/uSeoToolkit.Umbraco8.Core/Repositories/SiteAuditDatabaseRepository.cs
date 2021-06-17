@@ -7,10 +7,10 @@ using Umbraco.Web;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Database;
 using System.Linq;
 using Newtonsoft.Json;
-using SeoToolkit.Core.Enums;
-using SeoToolkit.Core.Interfaces.SiteAudit;
-using SeoToolkit.Core.Models.SiteAudit;
 using Umbraco.Core.Models.PublishedContent;
+using uSeoToolkit.Umbraco8.Core.Common.Enums;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SiteAudit;
+using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Business;
 
 namespace uSeoToolkit.Umbraco8.Core.Repositories
 {
@@ -99,7 +99,7 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
                                 .From<SiteAuditCheckEntity>()
                                 .Where<SiteAuditCheckEntity>(it => it.AuditId == entity.Id))
                             .Select(it => _siteCheckCollection.GetAll().FirstOrDefault(s => s.Id == it.CheckGuid)).ToList(),
-                            CrawledPages = new ConcurrentBag<CrawledPageDto>(scope.Database.Fetch<SiteAuditPageEntity>(scope.SqlContext.Sql()
+                            CrawledPages = new ConcurrentQueue<CrawledPageDto>(scope.Database.Fetch<SiteAuditPageEntity>(scope.SqlContext.Sql()
                                 .SelectAll()
                                 .From<SiteAuditPageEntity>()
                                 .Where<SiteAuditPageEntity>(it => it.AuditId == entity.Id)).Select(it => Map(scope, it)))

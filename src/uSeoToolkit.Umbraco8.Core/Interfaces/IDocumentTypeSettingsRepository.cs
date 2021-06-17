@@ -1,5 +1,4 @@
-﻿using SeoToolkit.Core.Interfaces;
-using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
+﻿using uSeoToolkit.Umbraco8.Core.Models.DocumentTypeSettings.Business;
 
 namespace uSeoToolkit.Umbraco8.Core.Interfaces
 {

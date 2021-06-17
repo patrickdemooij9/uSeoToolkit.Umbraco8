@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.SignalR;
-using SeoToolkit.Core.Models.SiteAudit;
-using SeoToolkit.Core.Services;
+using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Business;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.ViewModels;
+using uSeoToolkit.Umbraco8.Core.Services.SiteAudit;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Hubs
 {

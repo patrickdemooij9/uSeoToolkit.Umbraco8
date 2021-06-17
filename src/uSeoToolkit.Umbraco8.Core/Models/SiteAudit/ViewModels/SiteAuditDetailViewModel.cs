@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using SeoToolkit.Core.Enums;
-using SeoToolkit.Core.Models.SiteAudit;
+using uSeoToolkit.Umbraco8.Core.Common.Enums;
+using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Business;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.ViewModels
 {

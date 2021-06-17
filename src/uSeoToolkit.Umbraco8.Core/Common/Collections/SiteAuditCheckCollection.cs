@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SeoToolkit.Core.Interfaces.SiteAudit;
 using Umbraco.Core.Composing;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SiteAudit;
 
 namespace uSeoToolkit.Umbraco8.Core.Common.Collections
 {

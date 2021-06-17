@@ -2,17 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using SeoToolkit.Core.Enums;
-using SeoToolkit.Core.Interfaces.SiteAudit;
-using SeoToolkit.Core.Models.SiteAudit;
-using SeoToolkit.Core.Services;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using uSeoToolkit.Umbraco8.Core.Common.Hubs;
+using uSeoToolkit.Umbraco8.Core.Interfaces.SiteAudit;
+using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.Business;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.PostModels;
 using uSeoToolkit.Umbraco8.Core.Models.SiteAudit.ViewModels;
+using uSeoToolkit.Umbraco8.Core.Services.SiteAudit;
 
 namespace uSeoToolkit.Umbraco8.Core.Controllers
 {
@@ -86,7 +85,7 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
                     }
                 });
             }
-            return Ok();
+            return Ok(model.Id);
         }
     }
 }

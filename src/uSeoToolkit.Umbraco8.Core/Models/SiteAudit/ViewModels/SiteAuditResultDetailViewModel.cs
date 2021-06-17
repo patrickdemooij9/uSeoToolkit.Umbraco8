@@ -1,5 +1,4 @@
 ﻿using System;
-using SeoToolkit.Core.Enums;
 
 namespace uSeoToolkit.Umbraco8.Core.Models.SiteAudit.ViewModels
 {

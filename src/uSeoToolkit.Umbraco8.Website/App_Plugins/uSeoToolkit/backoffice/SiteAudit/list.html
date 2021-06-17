@@ -1,0 +1,19 @@
+﻿<div ng-controller="uSeoToolkit.SiteAudit.ListController as vm">
+
+    <div class="umb-dashboard umb-scrollable row-fluid">
+        <div class="umb-dashboard__content">
+            <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
+
+            <umb-table items="vm.items"
+                       item-properties="vm.options.includeProperties"
+                       allow-select-all="options.bulkActionsAllowed"
+                       on-select="vm.selectItem(item, $index, $event)"
+                       on-click="vm.clickItem(item)"
+                       on-select-all="vm.selectAll($event)"
+                       on-selected-all="vm.isSelectedAll()"
+                       on-sorting-direction="vm.isSortDirection(col, direction)"
+                       on-sort="vm.sort(field, allow, isSystem)">
+            </umb-table>
+        </div>
+    </div>
+</div>
