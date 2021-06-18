@@ -37,14 +37,29 @@ namespace uSeoToolkit.Umbraco8.Core.Repositories
             using (var scope = _scopeProvider.CreateScope())
             {
                 foreach (var page in scope.Database.Fetch<SiteAuditPageEntity>(scope.SqlContext.Sql().SelectAll()
+                    .From<SiteAuditPageEntity>()
                     .Where<SiteAuditPageEntity>(it => it.AuditId == id)))
                 {
-                    scope.Database.Delete<SiteAuditCheckResultEntity>(scope.SqlContext.Sql()
-                        .Where<SiteAuditCheckResultEntity>(it => it.PageId == page.Id));
+                    foreach (var result in scope.Database.Fetch<SiteAuditCheckResultEntity>(scope.SqlContext.Sql()
+                        .SelectAll()
+                        .From<SiteAuditCheckResultEntity>()
+                        .Where<SiteAuditCheckResultEntity>(it => it.PageId == page.Id)))
+                    {
+                        scope.Database.Delete(result);
+                    }
                     scope.Database.Delete(page);
                 }
-                scope.Database.Delete<SiteAuditCheckEntity>(scope.SqlContext.Sql().Where<SiteAuditCheckEntity>(it => it.AuditId == id));
+                foreach (var check in scope.Database.Fetch<SiteAuditCheckEntity>(scope.SqlContext.Sql()
+                    .SelectAll()
+                    .From<SiteAuditCheckEntity>()
+                    .Where<SiteAuditCheckEntity>(it => it.AuditId == id)))
+                {
+                    scope.Database.Delete(check);
+                }
+
                 scope.Database.Delete<SiteAuditEntity>(id);
+
+                scope.Complete();
             }
         }
 

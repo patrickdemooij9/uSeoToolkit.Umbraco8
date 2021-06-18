@@ -65,7 +65,7 @@
 
         function deleteSelection() {
             vm.loading = true;
-            $http.get("backoffice/uSeoToolkit/SiteAudit/Delete",
+            $http.post("backoffice/uSeoToolkit/SiteAudit/Delete",
                 {
                     ids: vm.selection.map(function (item) {
                         return item.id;

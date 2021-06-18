@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Mvc;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
@@ -29,7 +30,7 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
             _siteAuditHubClient = siteAuditHubClient;
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IHttpActionResult Get(int id)
         {
             var model = _siteAuditService.Get(id);
@@ -39,10 +40,10 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
             return Json(new SiteAuditDetailViewModel(model));
         }
 
-        [HttpPost]
-        public IHttpActionResult Delete(int[] ids)
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult Delete(DeleteAuditsPostModel postModel)
         {
-            foreach (var id in ids)
+            foreach (var id in postModel.Ids)
             {
                 _siteAuditService.Delete(id);
             }
@@ -51,26 +52,26 @@ namespace uSeoToolkit.Umbraco8.Core.Controllers
         }
 
         //SignalR stuff
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IHttpActionResult Connect(int auditId, string clientId)
         {
             _siteAuditHubClient.AssignClient(clientId, auditId);
             return Get(auditId);
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IHttpActionResult GetAll()
         {
             return Json(_siteAuditService.GetAll());
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IHttpActionResult GetAllChecks()
         {
             return Json(_siteCheckCollection.GetAll().Select(it => new SiteAuditCheckViewModel { Id = it.Id, Name = it.Name, Description = it.Description }));
         }
 
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public IHttpActionResult CreateAudit([FromBody] CreateAuditPostModel postModel)
         {
             var model = new SiteAuditDto
